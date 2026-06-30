@@ -6,1395 +6,430 @@
     <title>Leftover</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html,
-        body {
-            min-height: 100vh;
-            height: auto;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { min-height: 100vh; height: auto; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #1a0b0e;
-            color: #f5e6ea;
+            background: #1a0b0e; color: #f5e6ea;
             padding: 20px;
-            background-image: radial-gradient(ellipse at 20% 30%, rgba(255, 107, 157, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 70%, rgba(255, 20, 147, 0.05) 0%, transparent 50%);
-            display: flex;
-            justify-content: center;
-            padding-bottom: 80px;
+            background-image: radial-gradient(ellipse at 20% 30%, rgba(255,107,157,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,20,147,0.05) 0%, transparent 50%);
+            display: flex; justify-content: center; padding-bottom: 80px;
         }
-        .app {
-            max-width: 600px;
-            width: 100%;
-        }
+        .app { max-width: 600px; width: 100%; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes heartPop { 0% { transform: scale(1); } 50% { transform: scale(1.5); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ===== АНИМАЦИИ ===== */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.96);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes heartPop {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.5);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        .start-screen { text-align: center; padding: 60px 20px; animation: fadeIn 0.6s ease; }
+        .start-screen .logo { width: 72px; height: 72px; stroke: #ff6b9d; stroke-width: 1.5; fill: none; margin: 0 auto 16px; display: block; }
+        .start-screen h1 { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 600; font-style: italic; color: #f5c2d1; }
+        .start-screen .subtitle { color: rgba(255,255,255,0.2); font-size: 16px; margin: 8px 0 32px; }
+        .start-screen .description { color: rgba(255,255,255,0.3); font-size: 15px; line-height: 1.8; max-width: 440px; margin: 0 auto 32px; }
+        .start-screen .description span { color: rgba(255,255,255,0.5); }
+        .lang-buttons { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; }
+        .lang-buttons button { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.3); padding: 10px 28px; border-radius: 40px; font-size: 15px; font-weight: 500; cursor: pointer; transition: 0.3s; font-family: 'Inter', sans-serif; }
+        .lang-buttons button:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); }
+        .lang-buttons button.active { background: rgba(255,107,157,0.1); border-color: rgba(255,107,157,0.2); color: #ff6b9d; }
+        .btn-enter { background: linear-gradient(135deg, #ff6b9d, #ff1493); border: none; padding: 14px 48px; border-radius: 40px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 4px 24px rgba(255,20,147,0.2); font-family: 'Inter', sans-serif; }
+        .btn-enter:hover { transform: scale(1.03); box-shadow: 0 8px 40px rgba(255,20,147,0.3); }
+        .btn-enter:active { transform: scale(0.96); }
 
-        /* ===== СТАРТОВЫЙ ЭКРАН ===== */
-        .start-screen {
-            text-align: center;
-            padding: 60px 20px;
-            animation: fadeIn 0.6s ease;
-        }
-        .start-screen .logo {
-            width: 72px;
-            height: 72px;
-            stroke: #ff6b9d;
-            stroke-width: 1.5;
-            fill: none;
-            margin: 0 auto 16px;
-            display: block;
-        }
-        .start-screen h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 42px;
-            font-weight: 600;
-            font-style: italic;
-            color: #f5c2d1;
-        }
-        .start-screen .subtitle {
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 16px;
-            margin: 8px 0 32px;
-        }
-        .start-screen .description {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 15px;
-            line-height: 1.8;
-            max-width: 440px;
-            margin: 0 auto 32px;
-        }
-        .start-screen .description span {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .lang-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .lang-buttons button {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.3);
-            padding: 10px 28px;
-            border-radius: 40px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-        .lang-buttons button:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.6);
-        }
-        .lang-buttons button.active {
-            background: rgba(255, 107, 157, 0.1);
-            border-color: rgba(255, 107, 157, 0.2);
-            color: #ff6b9d;
-        }
-        .btn-enter {
-            background: linear-gradient(135deg, #ff6b9d, #ff1493);
-            border: none;
-            padding: 14px 48px;
-            border-radius: 40px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 24px rgba(255, 20, 147, 0.2);
-            font-family: 'Inter', sans-serif;
-        }
-        .btn-enter:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 40px rgba(255, 20, 147, 0.3);
-        }
-        .btn-enter:active {
-            transform: scale(0.96);
-        }
+        .main-screen { display: none; }
+        .main-screen.active { display: block; animation: fadeIn 0.4s ease; }
+        .start-screen.hidden { display: none; }
 
-        /* ===== ОСНОВНОЙ ИНТЕРФЕЙС ===== */
-        .main-screen {
-            display: none;
-        }
-        .main-screen.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-        .start-screen.hidden {
-            display: none;
-        }
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-left .icon { width: 32px; height: 32px; stroke: #ff6b9d; stroke-width: 1.5; fill: none; }
+        .header-left h2 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; font-style: italic; color: #f5c2d1; }
+        .header-right { display: flex; align-items: center; gap: 16px; }
+        .header-right .lang-indicator { color: rgba(255,255,255,0.15); font-size: 13px; }
+        .notif-btn { position: relative; background: none; border: none; color: rgba(255,255,255,0.2); cursor: pointer; padding: 4px; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .notif-btn:hover { color: rgba(255,255,255,0.5); }
+        .notif-btn svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 1.5; fill: none; }
+        .notif-badge { position: absolute; top: -4px; right: -6px; background: #ff6b9d; color: #fff; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(255,107,157,0.3); }
+        .notif-badge.hidden { display: none; }
 
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .header-left .icon {
-            width: 32px;
-            height: 32px;
-            stroke: #ff6b9d;
-            stroke-width: 1.5;
-            fill: none;
-        }
-        .header-left h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-weight: 600;
-            font-style: italic;
-            color: #f5c2d1;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .header-right .lang-indicator {
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 13px;
-        }
-        .notif-btn {
-            position: relative;
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            padding: 4px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .notif-btn:hover {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .notif-btn svg {
-            width: 24px;
-            height: 24px;
-            stroke: currentColor;
-            stroke-width: 1.5;
-            fill: none;
-        }
-        .notif-badge {
-            position: absolute;
-            top: -4px;
-            right: -6px;
-            background: #ff6b9d;
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(255, 107, 157, 0.3);
-        }
-        .notif-badge.hidden {
-            display: none;
-        }
+        .tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 6px; margin-bottom: 20px; background: rgba(255,255,255,0.02); border-radius: 16px; padding: 4px; border: 1px solid rgba(255,255,255,0.04); scrollbar-width: thin; scrollbar-color: rgba(255,107,157,0.15) transparent; }
+        .tabs::-webkit-scrollbar { height: 3px; }
+        .tabs::-webkit-scrollbar-track { background: transparent; }
+        .tabs::-webkit-scrollbar-thumb { background: rgba(255,107,157,0.15); border-radius: 10px; }
+        .tab { flex: 0 0 auto; padding: 8px 14px; border: none; background: transparent; color: rgba(255,255,255,0.2); font-size: 14px; font-weight: 500; cursor: pointer; border-radius: 12px; transition: 0.3s; font-family: 'Inter', sans-serif; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+        .tab svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; fill: none; flex-shrink: 0; }
+        .tab:hover { color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.02); }
+        .tab.active { background: rgba(255,107,157,0.08); color: #ff6b9d; box-shadow: 0 2px 12px rgba(255,20,147,0.05); }
+        .tab .badge { background: rgba(255,255,255,0.04); padding: 0 6px; border-radius: 20px; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.2); margin-left: 2px; }
+        .tab.active .badge { background: rgba(255,107,157,0.1); color: #ff6b9d; }
 
-        /* ===== ТАБЫ ===== */
-        .tabs {
-            display: flex;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            gap: 6px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 107, 157, 0.15) transparent;
-        }
-        .tabs::-webkit-scrollbar {
-            height: 3px;
-        }
-        .tabs::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .tabs::-webkit-scrollbar-thumb {
-            background: rgba(255, 107, 157, 0.15);
-            border-radius: 10px;
-        }
-        .tab {
-            flex: 0 0 auto;
-            padding: 8px 14px;
-            border: none;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: 0.3s;
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .tab svg {
-            width: 18px;
-            height: 18px;
-            stroke: currentColor;
-            stroke-width: 1.5;
-            fill: none;
-            flex-shrink: 0;
-        }
-        .tab:hover {
-            color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .tab.active {
-            background: rgba(255, 107, 157, 0.08);
-            color: #ff6b9d;
-            box-shadow: 0 2px 12px rgba(255, 20, 147, 0.05);
-        }
-        .tab .badge {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 0 6px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.2);
-            margin-left: 2px;
-        }
-        .tab.active .badge {
-            background: rgba(255, 107, 157, 0.1);
-            color: #ff6b9d;
-        }
+        .page-content { display: none; animation: fadeIn 0.3s ease; }
+        .page-content.active { display: block; }
 
-        /* ===== СТРАНИЦЫ ===== */
-        .page-content {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        .page-content.active {
-            display: block;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
+        .stat-card { background: rgba(255,255,255,0.02); border-radius: 16px; padding: 16px 12px; text-align: center; border: 1px solid rgba(255,255,255,0.04); transition: 0.3s; }
+        .stat-card:hover { background: rgba(255,255,255,0.04); }
+        .stat-icon { display: block; margin: 0 auto 4px; }
+        .stat-icon svg { width: 28px; height: 28px; stroke: rgba(255,107,157,0.3); stroke-width: 1.5; fill: none; }
+        .stat-number { font-size: 28px; font-weight: 700; color: #f5e6ea; display: inline-block; transition: all 0.3s ease; }
+        .stat-number.pulse { animation: pulse 0.3s ease; }
+        .stat-label { font-size: 12px; color: rgba(255,255,255,0.2); display: block; margin-top: 2px; }
 
-        /* ===== ГЛАВНАЯ ===== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .stat-card {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 16px 12px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: 0.3s;
-        }
-        .stat-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .stat-icon {
-            display: block;
-            margin: 0 auto 4px;
-        }
-        .stat-icon svg {
-            width: 28px;
-            height: 28px;
-            stroke: rgba(255, 107, 157, 0.3);
-            stroke-width: 1.5;
-            fill: none;
-        }
-        .stat-number {
-            font-size: 28px;
-            font-weight: 700;
-            color: #f5e6ea;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        .stat-number.pulse {
-            animation: pulse 0.3s ease;
-        }
-        .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.2);
-            display: block;
-            margin-top: 2px;
-        }
+        .daily-phrase { background: rgba(255,107,157,0.05); border-radius: 20px; padding: 18px 20px; border: 1px solid rgba(255,107,157,0.08); margin-bottom: 24px; }
+        .daily-phrase .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,107,157,0.2); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .daily-phrase .label svg { width: 16px; height: 16px; stroke: rgba(255,107,157,0.2); stroke-width: 1.5; fill: none; }
+        .daily-phrase .text { font-size: 18px; font-weight: 400; color: #f5e6ea; margin: 6px 0 4px; line-height: 1.4; }
+        .daily-phrase .text::before, .daily-phrase .text::after { content: '"'; color: rgba(255,107,157,0.2); font-family: 'Playfair Display', serif; font-size: 24px; font-style: italic; }
+        .daily-phrase .meta { font-size: 12px; color: rgba(255,255,255,0.1); }
 
-        .daily-phrase {
-            background: rgba(255, 107, 157, 0.05);
-            border-radius: 20px;
-            padding: 18px 20px;
-            border: 1px solid rgba(255, 107, 157, 0.08);
-            margin-bottom: 24px;
-        }
-        .daily-phrase .label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: rgba(255, 107, 157, 0.2);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .daily-phrase .label svg {
-            width: 16px;
-            height: 16px;
-            stroke: rgba(255, 107, 157, 0.2);
-            stroke-width: 1.5;
-            fill: none;
-        }
-        .daily-phrase .text {
-            font-size: 18px;
-            font-weight: 400;
-            color: #f5e6ea;
-            margin: 6px 0 4px;
-            line-height: 1.4;
-        }
-        .daily-phrase .text::before,
-        .daily-phrase .text::after {
-            content: '"';
-            color: rgba(255, 107, 157, 0.2);
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-style: italic;
-        }
-        .daily-phrase .meta {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.1);
-        }
+        .sort-bar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+        .sort-bar select { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.3); padding: 6px 12px; border-radius: 40px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: 0.3s; outline: none; }
+        .sort-bar select:hover { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.1); }
+        .sort-bar select option { background: #1a0b0e; color: #f5e6ea; }
 
-        /* ===== СОРТИРОВКА ===== */
-        .sort-bar {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 16px;
-        }
-        .sort-bar select {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.3);
-            padding: 6px 12px;
-            border-radius: 40px;
-            font-size: 13px;
-            font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            cursor: pointer;
-            transition: 0.3s;
-            outline: none;
-        }
-        .sort-bar select:hover {
-            color: rgba(255, 255, 255, 0.5);
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-        .sort-bar select option {
-            background: #1a0b0e;
-            color: #f5e6ea;
-        }
+        .form-container { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border-radius: 28px; padding: 24px 20px 28px; border: 1px solid rgba(255,107,157,0.08); margin-bottom: 24px; }
+        .form-container:focus-within { border-color: rgba(255,107,157,0.2); background: rgba(255,255,255,0.05); }
+        .form-container textarea { width: 100%; min-height: 100px; background: transparent; border: none; outline: none; font-family: 'Inter', sans-serif; font-size: 17px; color: #f5e6ea; resize: vertical; line-height: 1.6; padding: 4px 0; }
+        .form-container textarea::placeholder { color: rgba(255,255,255,0.15); font-style: italic; }
+        .form-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.04); }
+        .form-footer .counter { color: rgba(255,255,255,0.15); font-size: 13px; }
+        .form-footer .counter span { color: rgba(255,255,255,0.3); }
+        .btn-submit { background: linear-gradient(135deg, #ff6b9d, #ff1493); border: none; padding: 10px 28px; border-radius: 40px; color: white; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 4px 24px rgba(255,20,147,0.2); }
+        .btn-submit:hover { transform: scale(1.03); box-shadow: 0 8px 40px rgba(255,20,147,0.3); }
+        .btn-submit:active { transform: scale(0.96); }
 
-        /* ===== ФОРМА ===== */
-        .form-container {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 28px;
-            padding: 24px 20px 28px;
-            border: 1px solid rgba(255, 107, 157, 0.08);
-            margin-bottom: 24px;
-        }
-        .form-container:focus-within {
-            border-color: rgba(255, 107, 157, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .form-container textarea {
-            width: 100%;
-            min-height: 100px;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 17px;
-            color: #f5e6ea;
-            resize: vertical;
-            line-height: 1.6;
-            padding: 4px 0;
-        }
-        .form-container textarea::placeholder {
-            color: rgba(255, 255, 255, 0.15);
-            font-style: italic;
-        }
-        .form-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .form-footer .counter {
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 13px;
-        }
-        .form-footer .counter span {
-            color: rgba(255, 255, 255, 0.3);
-        }
-        .btn-submit {
-            background: linear-gradient(135deg, #ff6b9d, #ff1493);
-            border: none;
-            padding: 10px 28px;
-            border-radius: 40px;
-            color: white;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 24px rgba(255, 20, 147, 0.2);
-        }
-        .btn-submit:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 40px rgba(255, 20, 147, 0.3);
-        }
-        .btn-submit:active {
-            transform: scale(0.96);
-        }
+        .phrases-list { display: flex; flex-direction: column; gap: 14px; }
+        .phrase-card { background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); border-radius: 20px; padding: 18px 20px; border: 1px solid rgba(255,255,255,0.04); transition: 0.3s; animation: slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .phrase-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,107,157,0.08); transform: translateY(-2px); }
+        .phrase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .phrase-author { font-size: 13px; font-weight: 500; color: rgba(255,107,157,0.4); display: flex; align-items: center; gap: 6px; }
+        .phrase-author .mine-badge { font-size: 11px; color: rgba(255,107,157,0.2); }
+        .phrase-actions-header { display: flex; align-items: center; gap: 8px; }
+        .delete-btn { background: none; border: none; color: rgba(255,255,255,0.1); cursor: pointer; padding: 2px 6px; transition: 0.3s; display: flex; align-items: center; justify-content: center; border-radius: 6px; }
+        .delete-btn:hover { color: #ff6b9d; background: rgba(255,107,157,0.05); }
+        .delete-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .phrase-text { font-size: 18px; font-weight: 400; color: #f5e6ea; line-height: 1.5; }
+        .phrase-text::before, .phrase-text::after { content: '"'; color: rgba(255,107,157,0.2); font-family: 'Playfair Display', serif; font-size: 24px; font-style: italic; }
+        .phrase-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.03); }
+        .phrase-time { color: rgba(255,255,255,0.12); font-size: 12px; }
+        .phrase-actions { display: flex; align-items: center; gap: 12px; }
+        .phrase-actions button, .phrase-actions span { background: none; border: none; display: flex; align-items: center; gap: 4px; color: rgba(255,255,255,0.2); font-size: 14px; font-weight: 500; cursor: pointer; padding: 4px 10px 4px 6px; border-radius: 20px; background: rgba(255,255,255,0.02); border: 1px solid transparent; transition: 0.3s; font-family: 'Inter', sans-serif; }
+        .phrase-actions button:hover, .phrase-actions span:hover { color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.06); }
+        .phrase-actions .liked { color: #ff6b9d; }
+        .phrase-actions .liked svg { fill: #ff6b9d; stroke: #ff6b9d; animation: heartPop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+        .phrase-actions svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-        /* ===== ЛЕНТА ===== */
-        .phrases-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-        .phrase-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 18px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: 0.3s;
-            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        .phrase-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 107, 157, 0.08);
-            transform: translateY(-2px);
-        }
-        .phrase-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        .phrase-author {
-            font-size: 13px;
-            font-weight: 500;
-            color: rgba(255, 107, 157, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .phrase-author .mine-badge {
-            font-size: 11px;
-            color: rgba(255, 107, 157, 0.2);
-        }
-        .phrase-actions-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .delete-btn {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            padding: 2px 6px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-        }
-        .delete-btn:hover {
-            color: #ff6b9d;
-            background: rgba(255, 107, 157, 0.05);
-        }
-        .delete-btn svg {
-            width: 16px;
-            height: 16px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-        }
-        .phrase-text {
-            font-size: 18px;
-            font-weight: 400;
-            color: #f5e6ea;
-            line-height: 1.5;
-        }
-        .phrase-text::before,
-        .phrase-text::after {
-            content: '"';
-            color: rgba(255, 107, 157, 0.2);
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            font-style: italic;
-        }
-        .phrase-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        .phrase-time {
-            color: rgba(255, 255, 255, 0.12);
-            font-size: 12px;
-        }
-        .phrase-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .phrase-actions button,
-        .phrase-actions span {
-            background: none;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            padding: 4px 10px 4px 6px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid transparent;
-            transition: 0.3s;
-            font-family: 'Inter', sans-serif;
-        }
-        .phrase-actions button:hover,
-        .phrase-actions span:hover {
-            color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.06);
-        }
-        .phrase-actions .liked {
-            color: #ff6b9d;
-        }
-        .phrase-actions .liked svg {
-            fill: #ff6b9d;
-            stroke: #ff6b9d;
-            animation: heartPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .phrase-actions svg {
-            width: 18px;
-            height: 18px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-        }
+        .comments-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,5,7,0.92); backdrop-filter: blur(12px); z-index: 200; display: none; flex-direction: column; animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); padding: 16px 20px 20px; }
+        .comments-modal.active { display: flex; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); flex-shrink: 0; }
+        .modal-header .modal-title { color: rgba(255,255,255,0.3); font-size: 14px; font-weight: 500; }
+        .modal-close { background: none; border: none; color: rgba(255,255,255,0.2); cursor: pointer; padding: 4px; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .modal-close svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .modal-close:hover { color: rgba(255,255,255,0.4); transform: rotate(90deg); }
+        .modal-phrase { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); flex-shrink: 0; }
+        .modal-phrase .mp-author { font-size: 13px; font-weight: 500; color: rgba(255,107,157,0.4); }
+        .modal-phrase .mp-text { font-size: 18px; font-weight: 400; color: #f5e6ea; line-height: 1.4; margin-top: 4px; }
+        .modal-phrase .mp-text::before, .modal-phrase .mp-text::after { content: '"'; color: rgba(255,107,157,0.2); font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; }
+        .modal-comments { flex: 1; overflow-y: auto; padding: 12px 0; }
+        .modal-comments::-webkit-scrollbar { width: 3px; }
+        .modal-comments::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        .modal-comments::-webkit-scrollbar-thumb { background: rgba(255,107,157,0.15); border-radius: 2px; }
+        .comment-item { display: flex; flex-direction: column; gap: 4px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); animation: slideUp 0.25s ease both; }
+        .comment-item.is-mine { background: rgba(255,107,157,0.03); border-radius: 12px; padding: 8px 12px; border: 1px solid rgba(255,107,157,0.05); }
+        .comment-item .comment-top { display: flex; align-items: center; gap: 8px; }
+        .comment-item .comment-avatar { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,107,157,0.06); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.15); font-size: 10px; font-weight: 600; flex-shrink: 0; }
+        .comment-item .comment-avatar svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.08); stroke-width: 1.5; fill: none; }
+        .comment-item .comment-author { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.25); }
+        .comment-item .comment-author .mine-label { font-size: 10px; color: rgba(255,107,157,0.15); margin-left: 4px; }
+        .comment-item .comment-time { color: rgba(255,255,255,0.06); font-size: 11px; margin-left: auto; }
+        .comment-item .comment-text { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.4; padding-left: 32px; }
+        .comment-item .comment-actions { display: flex; gap: 8px; padding-left: 32px; margin-top: 2px; }
+        .comment-item .comment-actions button { background: none; border: none; color: rgba(255,255,255,0.08); font-size: 12px; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 4px; }
+        .comment-item .comment-actions button:hover { color: rgba(255,107,157,0.3); }
+        .comment-item .comment-actions button svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .comment-item .comment-replies { padding-left: 32px; margin-top: 4px; border-left: 1px solid rgba(255,255,255,0.03); padding-left: 16px; }
+        .comment-item .comment-replies .comment-item { border-bottom: none; padding: 4px 0; }
+        .comment-item .comment-replies .comment-item .comment-text { padding-left: 0; }
+        .comment-item .comment-replies .comment-item .comment-actions { padding-left: 0; }
+        .reply-indicator { color: rgba(255,107,157,0.3); font-size: 13px; padding-left: 32px; margin-bottom: 4px; }
+        .reply-indicator button { background: none; border: none; color: rgba(255,255,255,0.15); cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; }
+        .reply-indicator button:hover { color: rgba(255,255,255,0.4); }
+        .modal-form { padding: 12px 0 0; border-top: 1px solid rgba(255,255,255,0.04); flex-shrink: 0; display: flex; gap: 8px; align-items: center; }
+        .modal-form input { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); border-radius: 40px; padding: 8px 16px; font-family: 'Inter', sans-serif; font-size: 14px; color: #f5e6ea; outline: none; transition: 0.3s; }
+        .modal-form input::placeholder { color: rgba(255,255,255,0.12); }
+        .modal-form input:focus { border-color: rgba(255,107,157,0.2); background: rgba(255,255,255,0.05); }
+        .modal-form button { background: rgba(255,107,157,0.1); border: none; padding: 8px 14px; border-radius: 40px; color: #ff6b9d; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .modal-form button:hover { background: rgba(255,107,157,0.2); }
+        .modal-form button svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
 
-        /* ===== МОДАЛКА КОММЕНТАРИЕВ ===== */
-        .comments-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 5, 7, 0.92);
-            backdrop-filter: blur(12px);
-            z-index: 200;
-            display: none;
-            flex-direction: column;
-            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            padding: 16px 20px 20px;
-        }
-        .comments-modal.active {
-            display: flex;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            flex-shrink: 0;
-        }
-        .modal-header .modal-title {
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 14px;
-            font-weight: 500;
-        }
-        .modal-close {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            padding: 4px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-close svg {
-            width: 24px;
-            height: 24px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-        }
-        .modal-close:hover {
-            color: rgba(255, 255, 255, 0.4);
-            transform: rotate(90deg);
-        }
+        .notif-dropdown { display: none; position: absolute; top: 40px; right: 0; background: rgba(20,10,12,0.95); backdrop-filter: blur(20px); border-radius: 16px; padding: 12px 0; min-width: 280px; max-width: 320px; max-height: 300px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 20px 60px rgba(0,0,0,0.5); z-index: 300; }
+        .notif-dropdown.open { display: block; }
+        .notif-dropdown .notif-item { padding: 10px 16px; font-size: 14px; color: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(255,255,255,0.03); transition: 0.2s; cursor: default; display: flex; align-items: center; gap: 8px; }
+        .notif-dropdown .notif-item:hover { background: rgba(255,255,255,0.02); }
+        .notif-dropdown .notif-item .notif-icon { display: flex; }
+        .notif-dropdown .notif-item .notif-icon svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.2); stroke-width: 1.5; fill: none; }
+        .notif-dropdown .notif-item .notif-text { flex: 1; }
+        .notif-dropdown .notif-item .notif-time { font-size: 11px; color: rgba(255,255,255,0.1); }
+        .notif-dropdown .notif-empty { padding: 20px 16px; color: rgba(255,255,255,0.08); text-align: center; font-size: 14px; }
 
-        .modal-phrase {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            flex-shrink: 0;
-        }
-        .modal-phrase .mp-author {
-            font-size: 13px;
-            font-weight: 500;
-            color: rgba(255, 107, 157, 0.4);
-        }
-        .modal-phrase .mp-text {
-            font-size: 18px;
-            font-weight: 400;
-            color: #f5e6ea;
-            line-height: 1.4;
-            margin-top: 4px;
-        }
-        .modal-phrase .mp-text::before,
-        .modal-phrase .mp-text::after {
-            content: '"';
-            color: rgba(255, 107, 157, 0.2);
-            font-family: 'Playfair Display', serif;
-            font-size: 22px;
-            font-style: italic;
-        }
+        .empty-state { text-align: center; padding: 40px 20px; }
+        .empty-state svg { width: 48px; height: 48px; stroke: rgba(255,255,255,0.05); stroke-width: 1.5; fill: none; margin: 0 auto 12px; display: block; }
+        .empty-state p { color: rgba(255,255,255,0.12); font-size: 15px; }
 
-        .modal-comments {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px 0;
-        }
-        .modal-comments::-webkit-scrollbar {
-            width: 3px;
-        }
-        .modal-comments::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .modal-comments::-webkit-scrollbar-thumb {
-            background: rgba(255, 107, 157, 0.15);
-            border-radius: 2px;
-        }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); color: #f5e6ea; padding: 12px 24px; border-radius: 40px; font-weight: 500; font-size: 14px; opacity: 0; transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1); pointer-events: none; border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 999; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        .comment-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-            animation: slideUp 0.25s ease both;
+        @media (max-width:480px) {
+            body { padding: 16px; }
+            .header-left h2 { font-size: 20px; }
+            .stats-grid { grid-template-columns: repeat(3,1fr); gap: 8px; }
+            .stat-number { font-size: 22px; }
+            .phrase-text { font-size: 16px; }
+            .form-container { padding: 18px 16px 22px; }
+            .tab { font-size: 12px; padding: 6px 10px; }
+            .tab svg { width: 14px; height: 14px; }
+            .notif-dropdown { right: -10px; min-width: 260px; }
+            .comments-modal { padding: 12px 16px; }
+            .modal-phrase .mp-text { font-size: 16px; }
         }
-        .comment-item.is-mine {
-            background: rgba(255, 107, 157, 0.03);
-            border-radius: 12px;
-            padding: 8px 12px;
-            border: 1px solid rgba(255, 107, 157, 0.05);
-        }
-        .comment-item .comment-top {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .comment-item .comment-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: rgba(255, 107, 157, 0.06);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 10px;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-        .comment-item .comment-avatar svg {
-            width: 14px;
-            height: 14px;
-            stroke: rgba(255, 255, 255, 0.08);
-            stroke-width: 1.5;
-            fill: none;
-        }
-        .comment-item .comment-author {
-            font-size: 13px;
-            font-weight: 500;
-            color: rgba(255, 255, 255, 0.25);
-        }
-        .comment-item .comment-author .mine-label {
-            font-size: 10px;
-            color: rgba(255, 107, 157, 0.15);
-            margin-left: 4px;
-        }
-        .comment-item .comment-time {
-            color: rgba(255, 255, 255, 0.06);
-            font-size: 11px;
-            margin-left: auto;
-        }
-        .comment-item .comment-text {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-            line-height: 1.4;
-            padding-left: 32px;
-        }
-        .comment-item .comment-actions {
-            display: flex;
-            gap: 8px;
-            padding-left: 32px;
-            margin-top: 2px;
-        }
-        .comment-item .comment-actions button {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.08);
-            font-size: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .comment-item .comment-actions button:hover {
-            color: rgba(255, 107, 157, 0.3);
-        }
-        .comment-item .comment-actions button svg {
-            width: 14px;
-            height: 14px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-        }
-        .comment-item .comment-replies {
-            padding-left: 32px;
-            margin-top: 4px;
-            border-left: 1px solid rgba(255, 255, 255, 0.03);
-            padding-left: 16px;
-        }
-        .comment-item .comment-replies .comment-item {
-            border-bottom: none;
-            padding: 4px 0;
-        }
-        .comment-item .comment-replies .comment-item .comment-text {
-            padding-left: 0;
-        }
-        .comment-item .comment-replies .comment-item .comment-actions {
-            padding-left: 0;
-        }
-
-        .reply-indicator {
-            color: rgba(255, 107, 157, 0.3);
-            font-size: 13px;
-            padding-left: 32px;
-            margin-bottom: 4px;
-        }
-        .reply-indicator button {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.15);
-            cursor: pointer;
-            font-size: 13px;
-            font-family: 'Inter', sans-serif;
-        }
-        .reply-indicator button:hover {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .modal-form {
-            padding: 12px 0 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            flex-shrink: 0;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .modal-form input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 40px;
-            padding: 8px 16px;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: #f5e6ea;
-            outline: none;
-            transition: 0.3s;
-        }
-        .modal-form input::placeholder {
-            color: rgba(255, 255, 255, 0.12);
-        }
-        .modal-form input:focus {
-            border-color: rgba(255, 107, 157, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .modal-form button {
-            background: rgba(255, 107, 157, 0.1);
-            border: none;
-            padding: 8px 14px;
-            border-radius: 40px;
-            color: #ff6b9d;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-form button:hover {
-            background: rgba(255, 107, 157, 0.2);
-        }
-        .modal-form button svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        /* ===== УВЕДОМЛЕНИЯ ===== */
-        .notif-dropdown {
-            display: none;
-            position: absolute;
-            top: 40px;
-            right: 0;
-            background: rgba(20, 10, 12, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 12px 0;
-            min-width: 280px;
-            max-width: 320px;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            z-index: 300;
-        }
-        .notif-dropdown.open {
-            display: block;
-        }
-        .notif-dropdown .notif-item {
-            padding: 10px 16px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            transition: 0.2s;
-            cursor: default;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .notif-dropdown .notif-item:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .notif-dropdown .notif-item .notif-icon {
-            display: flex;
-        }
-        .notif-dropdown .notif-item .notif-icon svg {
-            width: 18px;
-            height: 18px;
-            stroke: rgba(255, 255, 255, 0.2);
-            stroke-width: 1.5;
-            fill: none;
-        }
-        .notif-dropdown .notif-item .notif-text {
-            flex: 1;
-        }
-        .notif-dropdown .notif-item .notif-time {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.1);
-        }
-        .notif-dropdown .notif-empty {
-            padding: 20px 16px;
-            color: rgba(255, 255, 255, 0.08);
-            text-align: center;
-            font-size: 14px;
-        }
-
-        /* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .empty-state svg {
-            width: 48px;
-            height: 48px;
-            stroke: rgba(255, 255, 255, 0.05);
-            stroke-width: 1.5;
-            fill: none;
-            margin: 0 auto 12px;
-            display: block;
-        }
-        .empty-state p {
-            color: rgba(255, 255, 255, 0.12);
-            font-size: 15px;
-        }
-
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            color: #f5e6ea;
-            padding: 12px 24px;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 14px;
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: none;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            z-index: 999;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* ===== АДАПТИВ ===== */
-        @media (max-width: 480px) {
-            body {
-                padding: 16px;
-            }
-            .header-left h2 {
-                font-size: 20px;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-            }
-            .stat-number {
-                font-size: 22px;
-            }
-            .phrase-text {
-                font-size: 16px;
-            }
-            .form-container {
-                padding: 18px 16px 22px;
-            }
-            .tab {
-                font-size: 12px;
-                padding: 6px 10px;
-            }
-            .tab svg {
-                width: 14px;
-                height: 14px;
-            }
-            .notif-dropdown {
-                right: -10px;
-                min-width: 260px;
-            }
-            .comments-modal {
-                padding: 12px 16px;
-            }
-            .modal-phrase .mp-text {
-                font-size: 16px;
-            }
-        }
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 107, 157, 0.15);
-            border-radius: 2px;
-        }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,107,157,0.15); border-radius: 2px; }
     </style>
 </head>
 <body>
 
-    <div class="app" id="app">
-        <!-- СТАРТОВЫЙ ЭКРАН -->
-        <div class="start-screen" id="startScreen">
-            <svg class="logo" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
-            <h1>Leftover</h1>
-            <p class="subtitle">Анонимный сбор фраз, которые остались в твоей голове</p>
-            <div class="description" id="startDesc">
-                <span>Иногда слова застревают в голове на годы</span><br>
-                <span>Фразы, которые мы не можем забыть..</span><br>
-                <span>Это место: чтобы оставить их анонимно</span><br><br>
-                <span>Никаких имён. Без осуждения</span><br>
-                <span>Каждая фраза здесь: чья-то история.</span><br>
-                <span>И когда ты видишь это, ты понимаешь что ты не один и становится легче)</span>
+<div class="app" id="app">
+    <div class="start-screen" id="startScreen">
+        <svg class="logo" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <h1>Leftover</h1>
+        <p class="subtitle">Анонимный сбор фраз, которые остались в твоей голове</p>
+        <div class="description" id="startDesc">
+            <span>Иногда слова застревают в голове на годы</span><br>
+            <span>Фразы, которые мы не можем забыть..</span><br>
+            <span>Это место: чтобы оставить их анонимно</span><br><br>
+            <span>Никаких имён. Без осуждения</span><br>
+            <span>Каждая фраза здесь: чья-то история.</span><br>
+            <span>И когда ты видишь это, ты понимаешь что ты не один и становится легче)</span>
+        </div>
+        <div class="lang-buttons">
+            <button class="active" data-lang="ru" onclick="selectLanguage('ru')">🇷🇺 Русский</button>
+            <button data-lang="en" onclick="selectLanguage('en')">🇬🇧 English</button>
+        </div>
+        <button class="btn-enter" onclick="enterSite()">Войти / Enter</button>
+    </div>
+
+    <div class="main-screen" id="mainScreen">
+        <div class="header">
+            <div class="header-left">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <h2>Leftover</h2>
             </div>
-            <div class="lang-buttons">
-                <button class="active" data-lang="ru" onclick="selectLanguage('ru')">🇷🇺 Русский</button>
-                <button data-lang="en" onclick="selectLanguage('en')">🇬🇧 English</button>
+            <div class="header-right">
+                <span class="lang-indicator" id="langIndicator">🇷🇺 Русский</span>
+                <div style="position:relative;">
+                    <button class="notif-btn" id="notifBtn" onclick="toggleNotifications()">
+                        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        <span class="notif-badge hidden" id="notifBadge">0</span>
+                    </button>
+                    <div class="notif-dropdown" id="notifDropdown"></div>
+                </div>
             </div>
-            <button class="btn-enter" onclick="enterSite()">Войти / Enter</button>
         </div>
 
-        <!-- ОСНОВНОЙ ИНТЕРФЕЙС -->
-        <div class="main-screen" id="mainScreen">
-            <div class="header">
-                <div class="header-left">
-                    <svg class="icon" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                    </svg>
-                    <h2>Leftover</h2>
+        <div class="tabs">
+            <button class="tab active" data-tab="main" onclick="switchTab('main')">
+                <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V10"/></svg>
+                Главная
+            </button>
+            <button class="tab" data-tab="all" onclick="switchTab('all')">
+                <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+                Все фразы<span class="badge" id="allCount">0</span>
+            </button>
+            <button class="tab" data-tab="my" onclick="switchTab('my')">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Мои фразы <span class="badge" id="myCount">0</span>
+            </button>
+            <button class="tab" data-tab="new" onclick="switchTab('new')">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                Написать новую фразу
+            </button>
+        </div>
+
+        <div id="page-main" class="page-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+                    <span class="stat-number" id="onlineCount">0</span>
+                    <span class="stat-label">онлайн</span>
                 </div>
-                <div class="header-right">
-                    <span class="lang-indicator" id="langIndicator">🇷🇺 Русский</span>
-                    <div style="position:relative;">
-                        <button class="notif-btn" id="notifBtn" onclick="toggleNotifications()">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                            </svg>
-                            <span class="notif-badge hidden" id="notifBadge">0</span>
-                        </button>
-                        <div class="notif-dropdown" id="notifDropdown"></div>
-                    </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                    <span class="stat-number" id="totalPhrases">0</span>
+                    <span class="stat-label">всего фраз</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+                    <span class="stat-number" id="totalLikes">0</span>
+                    <span class="stat-label">всего лайков</span>
                 </div>
             </div>
-
-            <div class="tabs">
-                <button class="tab active" data-tab="main" onclick="switchTab('main')">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M3 12l9-9 9 9" />
-                        <path d="M5 10v10a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V10" />
-                    </svg>
-                    Главная
-                </button>
-                <button class="tab" data-tab="all" onclick="switchTab('all')">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M4 6h16M4 12h16M4 18h10" />
-                    </svg>
-                    Все фразы<span class="badge" id="allCount">0</span>
-                </button>
-                <button class="tab" data-tab="my" onclick="switchTab('my')">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                    </svg>
-                    Мои фразы <span class="badge" id="myCount">0</span>
-                </button>
-                <button class="tab" data-tab="new" onclick="switchTab('new')">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" />
-                        <path d="M12 8v8M8 12h8" />
-                    </svg>
-                    Написать новую фразу
-                </button>
-            </div>
-
-            <div id="page-main" class="page-content active">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></svg></span>
-                        <span class="stat-number" id="onlineCount">0</span>
-                        <span class="stat-label">онлайн</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg></span>
-                        <span class="stat-number" id="totalPhrases">0</span>
-                        <span class="stat-label">всего фраз</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg></span>
-                        <span class="stat-number" id="totalLikes">0</span>
-                        <span class="stat-label">всего лайков</span>
-                    </div>
+            <div class="daily-phrase" id="dailyPhrase">
+                <div class="label">
+                    <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    Фраза дня
                 </div>
-                <div class="daily-phrase" id="dailyPhrase">
-                    <div class="label">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-                        </svg>
-                        Фраза дня
-                    </div>
-                    <div class="text" id="dailyText">Загрузка...</div>
-                    <div class="meta" id="dailyMeta"></div>
-                </div>
+                <div class="text" id="dailyText">Загрузка...</div>
+                <div class="meta" id="dailyMeta"></div>
             </div>
+        </div>
 
-            <div id="page-all" class="page-content">
-                <div class="sort-bar">
-                    <select id="sortSelect" onchange="applySortAndPaginate()">
-                        <option value="date">По дате (новые)</option>
-                        <option value="likes">По лайкам</option>
-                        <option value="views">По просмотрам</option>
-                    </select>
-                </div>
-                <div class="phrases-list" id="allPhrasesList"></div>
-                <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
-                    <button class="load-more-btn" id="loadMoreBtn">Загрузить ещё</button>
-                </div>
+        <div id="page-all" class="page-content">
+            <div class="sort-bar">
+                <select id="sortSelect" onchange="applySortAndPaginate()">
+                    <option value="date">По дате (новые)</option>
+                    <option value="likes">По лайкам</option>
+                    <option value="views">По просмотрам</option>
+                </select>
             </div>
-
-            <div id="page-my" class="page-content">
-                <div class="phrases-list" id="myPhrasesList"></div>
+            <div class="phrases-list" id="allPhrasesList"></div>
+            <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+                <button class="load-more-btn" id="loadMoreBtn">Загрузить ещё</button>
             </div>
+        </div>
 
-            <div id="page-new" class="page-content">
-                <div class="form-container">
-                    <textarea id="phraseInput" placeholder="Напиши фразу, которая застряла в твоей голове..." maxlength="1500"></textarea>
-                    <div class="form-footer">
-                        <span class="counter"><span id="charCount">0</span> / 1500</span>
-                        <button class="btn-submit" id="submitBtn">Отправить</button>
-                    </div>
+        <div id="page-my" class="page-content">
+            <div class="phrases-list" id="myPhrasesList"></div>
+        </div>
+
+        <div id="page-new" class="page-content">
+            <div class="form-container">
+                <textarea id="phraseInput" placeholder="Напиши фразу, которая застряла в твоей голове..." maxlength="1500"></textarea>
+                <div class="form-footer">
+                    <span class="counter"><span id="charCount">0</span> / 1500</span>
+                    <button class="btn-submit" id="submitBtn">Отправить</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- МОДАЛКА КОММЕНТАРИЕВ -->
-    <div class="comments-modal" id="commentsModal">
-        <div class="modal-header">
-            <span class="modal-title" id="modalTitle">Комментарии</span>
-            <button class="modal-close" onclick="closeCommentsModal()">
-                <svg viewBox="0 0 24 24">
-                    <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-        <div class="modal-phrase">
-            <div class="mp-author" id="mpAuthor">Аноним</div>
-            <div class="mp-text" id="mpText">Фраза</div>
-        </div>
-        <div class="modal-comments" id="modalComments">
-            <div class="loading-spinner" style="text-align:center;padding:20px;color:rgba(255,255,255,0.05);">
-                <div style="display:inline-block;width:24px;height:24px;border:2px solid rgba(255,107,157,0.05);border-top:2px solid rgba(255,107,157,0.2);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-            </div>
-        </div>
-        <div class="modal-form">
-            <input type="text" id="modalCommentInput" placeholder="Написать комментарий..." maxlength="200">
-            <button onclick="sendModalComment()">
-                <svg viewBox="0 0 24 24">
-                    <path d="M22 2L11 13" />
-                    <path d="M22 2l-7 20-4-9-9-4 20-7z" />
-                </svg>
-            </button>
+<div class="comments-modal" id="commentsModal">
+    <div class="modal-header">
+        <span class="modal-title" id="modalTitle">Комментарии</span>
+        <button class="modal-close" onclick="closeCommentsModal()">
+            <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+    <div class="modal-phrase">
+        <div class="mp-author" id="mpAuthor">Аноним</div>
+        <div class="mp-text" id="mpText">Фраза</div>
+    </div>
+    <div class="modal-comments" id="modalComments">
+        <div class="loading-spinner" style="text-align:center;padding:20px;color:rgba(255,255,255,0.05);">
+            <div style="display:inline-block;width:24px;height:24px;border:2px solid rgba(255,107,157,0.05);border-top:2px solid rgba(255,107,157,0.2);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
         </div>
     </div>
+    <div class="modal-form">
+        <input type="text" id="modalCommentInput" placeholder="Написать комментарий..." maxlength="200">
+        <button onclick="sendModalComment()">
+            <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+    </div>
+</div>
 
-    <div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div>
 
-    <script>
-        // ============================================================
-        //  ХРАНИЛИЩЕ
-        // ============================================================
-        const STORAGE_KEY = 'leftover_data';
-        const VIEWS_KEY = 'leftover_views';
-        const LIKES_KEY = 'leftover_likes';
-        const NOTIF_KEY = 'leftover_notifications';
-        const ONLINE_KEY = 'leftover_online';
-        const AUTHOR_KEY = 'leftover_author';
-        const VISITED_KEY = 'leftover_visited';
-        const LANG_KEY = 'leftover_lang';
-        const AUTHOR_NUM_KEY = 'leftover_author_num';
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
 
-        function getData() {
-            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { phrases: [] }; } catch { return { phrases: [] }; }
-        }
+<script>
+    // ============================================================
+    //  FIREBASE CONFIG
+    // ============================================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyC6dMW5H-NYRj7MKLQxtzNpavwYG_znM1M",
+        authDomain: "loftover-feb9e.firebaseapp.com",
+        projectId: "loftover-feb9e",
+        storageBucket: "loftover-feb9e.firebasestorage.app",
+        messagingSenderId: "871361485543",
+        appId: "1:871361485543:web:149842b7bb803e2a61e042",
+        measurementId: "G-H3SHQZJEQ8"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
 
-        function saveData(data) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        }
+    // ============================================================
+    //  ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+    // ============================================================
+    let currentUser = null;
+    let currentTab = 'main';
+    let currentSort = 'date';
+    let allPhrases = [];
+    let filteredPhrases = [];
+    let myPhrases = [];
+    let currentPage = 0;
+    const PAGE_SIZE = 15;
+    let modalPhraseId = null;
+    let modalReplyTo = null;
+    let onlineInterval = null;
+    let MY_AUTHOR = null;
+    const isVisited = localStorage.getItem('leftover_visited') === 'true';
 
-        function getViews() {
-            try { return JSON.parse(localStorage.getItem(VIEWS_KEY)) || {}; } catch { return {}; }
-        }
-
-        function saveViews(views) {
-            localStorage.setItem(VIEWS_KEY, JSON.stringify(views));
-        }
-
-        function getLikes() {
-            try { return JSON.parse(localStorage.getItem(LIKES_KEY)) || {}; } catch { return {}; }
-        }
-
-        function saveLikes(likes) {
-            localStorage.setItem(LIKES_KEY, JSON.stringify(likes));
-        }
-
-        function getNotifs() {
-            try { return JSON.parse(localStorage.getItem(NOTIF_KEY)) || []; } catch { return []; }
-        }
-
-        function saveNotifs(notifs) {
-            localStorage.setItem(NOTIF_KEY, JSON.stringify(notifs));
-        }
-
-        function getOnline() {
-            try { return JSON.parse(localStorage.getItem(ONLINE_KEY)) || {}; } catch { return {}; }
-        }
-
-        function saveOnline(online) {
-            localStorage.setItem(ONLINE_KEY, JSON.stringify(online));
-        }
-
-        function getAuthorNum() {
-            let num = localStorage.getItem(AUTHOR_NUM_KEY);
-            if (!num) {
-                num = '1';
-                localStorage.setItem(AUTHOR_NUM_KEY, num);
+    // ============================================================
+    //  АВТОРИЗАЦИЯ
+    // ============================================================
+    auth.signInAnonymously().catch(console.error);
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            currentUser = user;
+            const userRef = db.collection('users').doc(user.uid);
+            const doc = await userRef.get();
+            if (doc.exists) {
+                MY_AUTHOR = doc.data().authorNum;
+            } else {
+                const snapshot = await db.collection('users').get();
+                const nextNum = snapshot.size + 1;
+                await userRef.set({ authorNum: nextNum, createdAt: new Date().toISOString() });
+                MY_AUTHOR = nextNum;
             }
-            return parseInt(num);
-        }
-
-        function setAuthorNum(num) {
-            localStorage.setItem(AUTHOR_NUM_KEY, String(num));
-        }
-
-        function getNextAuthorNum() {
-            let num = getAuthorNum();
-            let next = num + 1;
-            setAuthorNum(next);
-            return num;
-        }
-
-        function getAuthor() {
-            let author = localStorage.getItem(AUTHOR_KEY);
-            if (!author) {
-                author = String(getNextAuthorNum());
-                localStorage.setItem(AUTHOR_KEY, author);
+            startOnlineTracking(user.uid);
+            loadPhrases();
+            if (isVisited) {
+                document.getElementById('startScreen').classList.add('hidden');
+                document.getElementById('mainScreen').classList.add('active');
             }
-            return parseInt(author);
         }
-        const MY_AUTHOR = getAuthor();
+    });
 
-        // ============================================================
-        //  ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
-        // ============================================================
-        let currentTab = 'main';
-        let currentSort = 'date';
-        let allPhrases = [];
-        let filteredPhrases = [];
-        let myPhrases = [];
-        let currentPage = 0;
-        const PAGE_SIZE = 15;
-        let modalPhraseId = null;
-        let modalReplyTo = null;
-        let onlineInterval = null;
-        let isVisited = localStorage.getItem(VISITED_KEY) === 'true';
+    // ============================================================
+    //  ОНЛАЙН
+    // ============================================================
+    function startOnlineTracking(uid) {
+        const onlineRef = db.collection('online').doc(uid);
+        onlineRef.set({ uid, lastSeen: new Date().toISOString() }).catch(console.error);
+        if (onlineInterval) clearInterval(onlineInterval);
+        onlineInterval = setInterval(() => {
+            onlineRef.set({ uid, lastSeen: new Date().toISOString() }).catch(console.error);
+        }, 15000);
+        window.addEventListener('beforeunload', () => {
+            onlineRef.delete().catch(console.error);
+            if (onlineInterval) clearInterval(onlineInterval);
+        });
+    }
 
-        // ============================================================
-        //  УТИЛИТЫ
-        // ============================================================
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatTime(ts) {
-            return new Date(ts).toLocaleString('ru', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            clearTimeout(toast._timer);
-            toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        // ============================================================
-        //  ОНЛАЙН
-        // ============================================================
-        function updateOnline() {
-            const online = getOnline();
-            online[MY_AUTHOR] = Date.now();
-            saveOnline(online);
-            updateOnlineCount();
-        }
-
-        function updateOnlineCount() {
-            const online = getOnline();
+    function updateOnlineCount() {
+        db.collection('online').get().then(snapshot => {
             const now = Date.now();
             const cutoff = now - 30000;
             let count = 0;
-            for (let key in online) {
-                if (online[key] > cutoff) count++;
-            }
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.lastSeen && new Date(data.lastSeen).getTime() > cutoff) count++;
+            });
             const el = document.getElementById('onlineCount');
             if (el) {
                 el.textContent = count;
@@ -1402,250 +437,234 @@
                 void el.offsetWidth;
                 el.classList.add('pulse');
             }
-        }
+        });
+    }
 
-        function cleanupOnline() {
-            const online = getOnline();
-            const now = Date.now();
-            const cutoff = now - 30000;
-            for (let key in online) {
-                if (online[key] < cutoff) delete online[key];
-            }
-            saveOnline(online);
-        }
+    // ============================================================
+    //  ЗАГРУЗКА ДАННЫХ (onSnapshot)
+    // ============================================================
+    function loadPhrases() {
+        db.collection('phrases')
+            .orderBy('timestamp', 'desc')
+            .limit(100)
+            .onSnapshot((snapshot) => {
+                allPhrases = [];
+                snapshot.forEach(doc => {
+                    allPhrases.push({ id: doc.id, ...doc.data() });
+                });
+                myPhrases = allPhrases.filter(p => p.author === MY_AUTHOR);
+                myPhrases.sort((a,b) => b.timestamp?.toMillis?.() || b.timestamp - a.timestamp);
+                document.getElementById('allCount').textContent = allPhrases.length;
+                document.getElementById('myCount').textContent = myPhrases.length;
+                const likes = allPhrases.reduce((sum, p) => sum + (p.likes || 0), 0);
+                document.getElementById('totalPhrases').textContent = allPhrases.length;
+                document.getElementById('totalLikes').textContent = likes;
 
-        // ============================================================
-        //  ЗАГРУЗКА ДАННЫХ
-        // ============================================================
-        function loadPhrases() {
-            const data = getData();
-            allPhrases = data.phrases || [];
-            allPhrases.sort((a, b) => b.timestamp - a.timestamp);
-            myPhrases = allPhrases.filter(p => p.author === MY_AUTHOR);
-            myPhrases.sort((a, b) => b.timestamp - a.timestamp);
-
-            document.getElementById('allCount').textContent = allPhrases.length;
-            document.getElementById('myCount').textContent = myPhrases.length;
-
-            const likes = allPhrases.reduce((sum, p) => sum + (p.likes || 0), 0);
-            document.getElementById('totalPhrases').textContent = allPhrases.length;
-            document.getElementById('totalLikes').textContent = likes;
-
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            let best = null;
-            let bestLikes = -1;
-            allPhrases.forEach(p => {
-                const ts = new Date(p.timestamp);
-                if (ts >= today && (p.likes || 0) > bestLikes) {
-                    bestLikes = p.likes;
-                    best = p;
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                let best = null;
+                let bestLikes = -1;
+                allPhrases.forEach(p => {
+                    const ts = p.timestamp?.toMillis?.() || p.timestamp;
+                    if (ts && new Date(ts) >= today && (p.likes || 0) > bestLikes) {
+                        bestLikes = p.likes;
+                        best = p;
+                    }
+                });
+                if (best) {
+                    document.getElementById('dailyText').textContent = best.text;
+                    document.getElementById('dailyMeta').textContent =
+                        `❤️ ${best.likes} • ${formatTime(best.timestamp)}`;
+                } else {
+                    document.getElementById('dailyText').textContent = 'Пока нет фраз за сегодня';
+                    document.getElementById('dailyMeta').textContent = '';
                 }
+                updateOnlineCount();
+                applySortAndPaginate();
+                renderMyPhrases();
             });
-            if (best) {
-                document.getElementById('dailyText').textContent = best.text;
-                document.getElementById('dailyMeta').textContent = `❤️ ${best.likes} • ${formatTime(best.timestamp)}`;
-            } else {
-                document.getElementById('dailyText').textContent = 'Пока нет фраз за сегодня';
-                document.getElementById('dailyMeta').textContent = '';
+    }
+
+    // ============================================================
+    //  УТИЛИТЫ
+    // ============================================================
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatTime(ts) {
+        if (!ts) return '';
+        const date = ts.toDate ? ts.toDate() : new Date(ts);
+        return date.toLocaleString('ru', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ============================================================
+    //  ПАГИНАЦИЯ
+    // ============================================================
+    function applySortAndPaginate() {
+        const sort = document.getElementById('sortSelect').value;
+        currentSort = sort;
+        let sorted = [...allPhrases];
+        if (sort === 'date') sorted.sort((a,b) => (b.timestamp?.toMillis?.() || b.timestamp) - (a.timestamp?.toMillis?.() || a.timestamp));
+        else if (sort === 'likes') sorted.sort((a,b) => (b.likes||0) - (a.likes||0));
+        else if (sort === 'views') sorted.sort((a,b) => (b.views||0) - (a.views||0));
+        filteredPhrases = sorted;
+        currentPage = 0;
+        document.getElementById('allPhrasesList').innerHTML = '';
+        renderPage();
+    }
+
+    function renderPage() {
+        const container = document.getElementById('allPhrasesList');
+        const start = currentPage * PAGE_SIZE;
+        const end = start + PAGE_SIZE;
+        const chunk = filteredPhrases.slice(start, end);
+        if (chunk.length === 0) {
+            document.getElementById('loadMoreWrap').style.display = 'none';
+            if (currentPage === 0 && filteredPhrases.length === 0) {
+                container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p>Пока нет фраз</p></div>`;
             }
-
-            applySortAndPaginate();
-            renderMyPhrases();
+            return;
         }
-
-        // ============================================================
-        //  ПАГИНАЦИЯ ДЛЯ ВСЕХ ФРАЗ
-        // ============================================================
-        function applySortAndPaginate() {
-            const sort = document.getElementById('sortSelect').value;
-            currentSort = sort;
-            let sorted = [...allPhrases];
-            if (sort === 'date') sorted.sort((a, b) => b.timestamp - a.timestamp);
-            else if (sort === 'likes') sorted.sort((a, b) => (b.likes || 0) - (a.likes || 0));
-            else if (sort === 'views') sorted.sort((a, b) => (b.views || 0) - (a.views || 0));
-            filteredPhrases = sorted;
-            currentPage = 0;
-            document.getElementById('allPhrasesList').innerHTML = '';
-            renderPage();
-        }
-
-        function renderPage() {
-            const container = document.getElementById('allPhrasesList');
-            const start = currentPage * PAGE_SIZE;
-            const end = start + PAGE_SIZE;
-            const chunk = filteredPhrases.slice(start, end);
-            if (chunk.length === 0) {
-                document.getElementById('loadMoreWrap').style.display = 'none';
-                if (currentPage === 0 && filteredPhrases.length === 0) {
-                    container.innerHTML =
-                        `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p>Пока нет фраз</p></div>`;
-                }
-                return;
-            }
-            if (currentPage === 0) container.innerHTML = '';
-            let html = '';
-            chunk.forEach((p, i) => {
-                const isMine = p.author === MY_AUTHOR;
-                const authorName = `Аноним #${p.author}`;
-                const views = p.views || 0;
-                const likes = p.likes || 0;
-                const comments = p.comments || [];
-                const liked = getLikes()[p.id] || false;
-                const time = formatTime(p.timestamp);
-                html += `
-                    <div class="phrase-card" style="animation-delay:${i*0.05}s">
-                        <div class="phrase-header">
-                            <span class="phrase-author">${authorName} ${isMine ? '<span class="mine-badge">✏️</span>' : ''}</span>
-                            ${isMine ? `<button class="delete-btn" onclick="deletePhrase('${p.id}')"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>` : ''}
-                        </div>
-                        <div class="phrase-text">${escapeHtml(p.text)}</div>
-                        <div class="phrase-footer">
-                            <span class="phrase-time">${time}</span>
-                            <div class="phrase-actions">
-                                <span class="${liked ? 'liked' : ''}" onclick="toggleLikeFromList('${p.id}')">
-                                    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                                    <span class="like-count-${p.id}">${likes}</span>
-                                </span>
-                                <span>
-                                    <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    <span>${views}</span>
-                                </span>
-                                <span onclick="openCommentsModal('${p.id}')">
-                                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                    <span class="comment-count-${p.id}">${comments.length}</span>
-                                </span>
-                            </div>
+        if (currentPage === 0) container.innerHTML = '';
+        let html = '';
+        chunk.forEach((p, i) => {
+            const isMine = p.author === MY_AUTHOR;
+            const authorName = `Аноним #${p.author}`;
+            const views = p.views || 0;
+            const likes = p.likes || 0;
+            const comments = p.comments || [];
+            const time = formatTime(p.timestamp);
+            html += `
+                <div class="phrase-card" style="animation-delay:${i*0.05}s">
+                    <div class="phrase-header">
+                        <span class="phrase-author">${authorName} ${isMine ? '<span class="mine-badge">✏️</span>' : ''}</span>
+                        ${isMine ? `<button class="delete-btn" onclick="deletePhrase('${p.id}')"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>` : ''}
+                    </div>
+                    <div class="phrase-text">${escapeHtml(p.text)}</div>
+                    <div class="phrase-footer">
+                        <span class="phrase-time">${time}</span>
+                        <div class="phrase-actions">
+                            <span onclick="toggleLikeFromList('${p.id}')">
+                                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                <span class="like-count-${p.id}">${likes}</span>
+                            </span>
+                            <span>
+                                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <span>${views}</span>
+                            </span>
+                            <span onclick="openCommentsModal('${p.id}')">
+                                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                <span class="comment-count-${p.id}">${comments.length}</span>
+                            </span>
                         </div>
                     </div>
-                `;
-            });
-            container.insertAdjacentHTML('beforeend', html);
-            currentPage++;
-            const wrap = document.getElementById('loadMoreWrap');
-            if (end >= filteredPhrases.length) {
-                wrap.style.display = 'none';
-            } else {
-                wrap.style.display = 'block';
-            }
-        }
+                </div>
+            `;
+        });
+        container.insertAdjacentHTML('beforeend', html);
+        currentPage++;
+        const wrap = document.getElementById('loadMoreWrap');
+        if (end >= filteredPhrases.length) wrap.style.display = 'none';
+        else wrap.style.display = 'block';
+    }
 
-        // ============================================================
-        //  МОИ ФРАЗЫ
-        // ============================================================
-        function renderMyPhrases() {
-            const container = document.getElementById('myPhrasesList');
-            // Перезагружаем из хранилища, чтобы быть уверенными
-            const data = getData();
-            myPhrases = data.phrases ? data.phrases.filter(p => p.author === MY_AUTHOR) : [];
-            myPhrases.sort((a, b) => b.timestamp - a.timestamp);
-            if (!myPhrases.length) {
-                container.innerHTML =
-                    `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p>У тебя пока нет фраз</p></div>`;
-                return;
-            }
-            let html = '';
-            myPhrases.forEach((p, i) => {
-                const authorName = `Аноним #${p.author}`;
-                const views = p.views || 0;
-                const likes = p.likes || 0;
-                const comments = p.comments || [];
-                const liked = getLikes()[p.id] || false;
-                const time = formatTime(p.timestamp);
-                html += `
-                    <div class="phrase-card" style="animation-delay:${i*0.05}s">
-                        <div class="phrase-header">
-                            <span class="phrase-author">${authorName} ✏️</span>
-                            <button class="delete-btn" onclick="deletePhrase('${p.id}')"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
-                        </div>
-                        <div class="phrase-text">${escapeHtml(p.text)}</div>
-                        <div class="phrase-footer">
-                            <span class="phrase-time">${time}</span>
-                            <div class="phrase-actions">
-                                <span class="${liked ? 'liked' : ''}" onclick="toggleLikeFromList('${p.id}')">
-                                    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                                    <span class="like-count-${p.id}">${likes}</span>
-                                </span>
-                                <span><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> ${views}</span>
-                                <span onclick="openCommentsModal('${p.id}')">
-                                    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                    <span class="comment-count-${p.id}">${comments.length}</span>
-                                </span>
-                            </div>
+    // ============================================================
+    //  МОИ ФРАЗЫ
+    // ============================================================
+    function renderMyPhrases() {
+        const container = document.getElementById('myPhrasesList');
+        if (!myPhrases.length) {
+            container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p>У тебя пока нет фраз</p></div>`;
+            return;
+        }
+        let html = '';
+        myPhrases.forEach((p, i) => {
+            const authorName = `Аноним #${p.author}`;
+            const views = p.views || 0;
+            const likes = p.likes || 0;
+            const comments = p.comments || [];
+            const time = formatTime(p.timestamp);
+            html += `
+                <div class="phrase-card" style="animation-delay:${i*0.05}s">
+                    <div class="phrase-header">
+                        <span class="phrase-author">${authorName} ✏️</span>
+                        <button class="delete-btn" onclick="deletePhrase('${p.id}')"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+                    </div>
+                    <div class="phrase-text">${escapeHtml(p.text)}</div>
+                    <div class="phrase-footer">
+                        <span class="phrase-time">${time}</span>
+                        <div class="phrase-actions">
+                            <span onclick="toggleLikeFromList('${p.id}')">
+                                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                <span class="like-count-${p.id}">${likes}</span>
+                            </span>
+                            <span><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> ${views}</span>
+                            <span onclick="openCommentsModal('${p.id}')">
+                                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                <span class="comment-count-${p.id}">${comments.length}</span>
+                            </span>
                         </div>
                     </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
 
-        // ============================================================
-        //  УДАЛЕНИЕ ФРАЗЫ
-        // ============================================================
-        function deletePhrase(phraseId) {
-            if (!confirm('Удалить эту фразу?')) return;
-            const data = getData();
-            data.phrases = data.phrases.filter(p => p.id !== phraseId);
-            saveData(data);
-            // Очищаем лайки и просмотры для этой фразы
-            const views = getViews();
-            delete views[phraseId];
-            saveViews(views);
-            const likes = getLikes();
-            delete likes[phraseId];
-            saveLikes(likes);
-            loadPhrases();
-            showToast('🗑️ Фраза удалена');
-        }
+    // ============================================================
+    //  УДАЛЕНИЕ
+    // ============================================================
+    function deletePhrase(phraseId) {
+        if (!confirm('Удалить эту фразу?')) return;
+        db.collection('phrases').doc(phraseId).delete()
+            .then(() => showToast('🗑️ Фраза удалена'))
+            .catch(console.error);
+    }
 
-        // ============================================================
-        //  ЛАЙКИ (из ленты)
-        // ============================================================
-        function toggleLikeFromList(phraseId) {
-            const likes = getLikes();
-            if (likes[phraseId]) {
-                delete likes[phraseId];
-                saveLikes(likes);
-                const data = getData();
-                const phrase = data.phrases.find(p => p.id === phraseId);
-                if (phrase) {
-                    phrase.likes = (phrase.likes || 1) - 1;
-                    saveData(data);
-                }
+    // ============================================================
+    //  ЛАЙКИ
+    // ============================================================
+    function toggleLikeFromList(phraseId) {
+        if (!currentUser) return;
+        const likeRef = db.collection('likes').doc(`${currentUser.uid}_${phraseId}`);
+        likeRef.get().then(doc => {
+            if (doc.exists) {
+                likeRef.delete();
+                db.collection('phrases').doc(phraseId).update({
+                    likes: firebase.firestore.FieldValue.increment(-1)
+                });
                 showToast('💔 Лайк убран');
             } else {
-                likes[phraseId] = true;
-                saveLikes(likes);
-                const data = getData();
-                const phrase = data.phrases.find(p => p.id === phraseId);
-                if (phrase) {
-                    phrase.likes = (phrase.likes || 0) + 1;
-                    saveData(data);
-                }
+                likeRef.set({ uid: currentUser.uid, phraseId, timestamp: new Date().toISOString() });
+                db.collection('phrases').doc(phraseId).update({
+                    likes: firebase.firestore.FieldValue.increment(1)
+                });
                 showToast('❤️ Лайк поставлен');
             }
-            // Обновляем счетчик
-            const countEl = document.querySelector(`.like-count-${phraseId}`);
-            if (countEl) {
-                const data = getData();
-                const phrase = data.phrases.find(p => p.id === phraseId);
-                if (phrase) countEl.textContent = phrase.likes;
-            }
-            loadPhrases();
-        }
+        });
+    }
 
-        // ============================================================
-        //  КОММЕНТАРИИ
-        // ============================================================
-        let currentModalPhrase = null;
-
-        function openCommentsModal(phraseId) {
-            modalPhraseId = phraseId;
-            modalReplyTo = null;
-            const data = getData();
-            const phrase = data.phrases.find(p => p.id === phraseId);
-            if (!phrase) return;
-            currentModalPhrase = phrase;
+    // ============================================================
+    //  КОММЕНТАРИИ
+    // ============================================================
+    function openCommentsModal(phraseId) {
+        modalPhraseId = phraseId;
+        modalReplyTo = null;
+        const phraseRef = db.collection('phrases').doc(phraseId);
+        phraseRef.get().then(doc => {
+            if (!doc.exists) return;
+            const phrase = { id: doc.id, ...doc.data() };
             document.getElementById('mpAuthor').textContent = `Аноним #${phrase.author}`;
             document.getElementById('mpText').textContent = phrase.text;
             document.getElementById('modalTitle').textContent = 'Комментарии';
@@ -1654,319 +673,229 @@
             document.body.style.overflow = 'hidden';
             trackView(phraseId);
             renderModalComments(phrase);
+        });
+    }
+
+    function renderModalComments(phrase) {
+        const container = document.getElementById('modalComments');
+        const comments = phrase.comments || [];
+        if (!comments.length) {
+            container.innerHTML = `<div class="empty-state"><p>Нет комментариев. Будь первым.</p></div>`;
+            return;
         }
-
-        function renderModalComments(phrase) {
-            const container = document.getElementById('modalComments');
-            const comments = phrase.comments || [];
-            if (!comments.length) {
-                container.innerHTML = `<div class="empty-state"><p>Нет комментариев. Будь первым.</p></div>`;
-                return;
+        const map = {};
+        comments.forEach(c => { c.replies = []; map[c.id] = c; });
+        const roots = [];
+        comments.forEach(c => {
+            if (c.parentId && map[c.parentId]) {
+                map[c.parentId].replies.push(c);
+            } else {
+                roots.push(c);
             }
-            const map = {};
-            comments.forEach(c => { c.replies = [];
-                map[c.id] = c; });
-            const roots = [];
-            comments.forEach(c => {
-                if (c.parentId && map[c.parentId]) {
-                    map[c.parentId].replies.push(c);
-                } else {
-                    roots.push(c);
-                }
-            });
+        });
 
-            function renderComment(c, depth = 0) {
-                const isMine = c.author === MY_AUTHOR;
-                const time = formatTime(c.timestamp);
-                let html = `
-                    <div class="comment-item ${isMine ? 'is-mine' : ''}" style="animation-delay:${depth*0.05}s">
-                        <div class="comment-top">
-                            <div class="comment-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                            <span class="comment-author">Аноним #${c.author} ${isMine ? '<span class="mine-label">вы</span>' : ''}</span>
-                            <span class="comment-time">${time}</span>
-                        </div>
-                        <div class="comment-text">${escapeHtml(c.text)}</div>
-                        <div class="comment-actions">
-                            <button onclick="setReplyTo('${phrase.id}', ${c.id})">
-                                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                Ответить
-                            </button>
-                        </div>
-                `;
-                if (c.replies && c.replies.length) {
-                    html += `<div class="comment-replies">`;
-                    c.replies.forEach(r => { html += renderComment(r, depth + 1); });
-                    html += `</div>`;
-                }
+        function renderComment(c, depth = 0) {
+            const isMine = c.author === MY_AUTHOR;
+            const time = formatTime(c.timestamp);
+            let html = `
+                <div class="comment-item ${isMine ? 'is-mine' : ''}" style="animation-delay:${depth*0.05}s">
+                    <div class="comment-top">
+                        <div class="comment-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                        <span class="comment-author">Аноним #${c.author} ${isMine ? '<span class="mine-label">вы</span>' : ''}</span>
+                        <span class="comment-time">${time}</span>
+                    </div>
+                    <div class="comment-text">${escapeHtml(c.text)}</div>
+                    <div class="comment-actions">
+                        <button onclick="setReplyTo('${phrase.id}', ${c.id})">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            Ответить
+                        </button>
+                    </div>
+            `;
+            if (c.replies && c.replies.length) {
+                html += `<div class="comment-replies">`;
+                c.replies.forEach(r => { html += renderComment(r, depth + 1); });
                 html += `</div>`;
-                return html;
             }
-
-            let finalHtml = '';
-            roots.forEach(r => { finalHtml += renderComment(r); });
-            container.innerHTML = finalHtml;
-
-            if (modalReplyTo) {
-                const indicator = document.createElement('div');
-                indicator.className = 'reply-indicator';
-                indicator.innerHTML = `Ответ на комментарий <button onclick="cancelReply()">Отменить</button>`;
-                container.prepend(indicator);
-                document.getElementById('modalCommentInput').focus();
-            }
+            html += `</div>`;
+            return html;
         }
 
-        function setReplyTo(phraseId, commentId) {
-            modalPhraseId = phraseId;
-            modalReplyTo = commentId;
-            const data = getData();
-            const phrase = data.phrases.find(p => p.id === phraseId);
-            if (phrase) renderModalComments(phrase);
+        let finalHtml = '';
+        roots.forEach(r => { finalHtml += renderComment(r); });
+        container.innerHTML = finalHtml;
+
+        if (modalReplyTo) {
+            const indicator = document.createElement('div');
+            indicator.className = 'reply-indicator';
+            indicator.innerHTML = `Ответ на комментарий <button onclick="cancelReply()">Отменить</button>`;
+            container.prepend(indicator);
             document.getElementById('modalCommentInput').focus();
         }
+    }
 
-        function cancelReply() {
-            modalReplyTo = null;
-            const data = getData();
-            const phrase = data.phrases.find(p => p.id === modalPhraseId);
-            if (phrase) renderModalComments(phrase);
-        }
+    function setReplyTo(phraseId, commentId) {
+        modalPhraseId = phraseId;
+        modalReplyTo = commentId;
+        const phraseRef = db.collection('phrases').doc(phraseId);
+        phraseRef.get().then(doc => {
+            if (doc.exists) renderModalComments({ id: doc.id, ...doc.data() });
+            document.getElementById('modalCommentInput').focus();
+        });
+    }
 
-        function sendModalComment() {
-            const input = document.getElementById('modalCommentInput');
-            const text = input.value.trim();
-            if (!text) { showToast('Напиши комментарий 😅'); return; }
-            if (!modalPhraseId) return;
-            const data = getData();
-            const phrase = data.phrases.find(p => p.id === modalPhraseId);
-            if (!phrase) return;
-            if (!phrase.comments) phrase.comments = [];
+    function cancelReply() {
+        modalReplyTo = null;
+        const phraseRef = db.collection('phrases').doc(modalPhraseId);
+        phraseRef.get().then(doc => {
+            if (doc.exists) renderModalComments({ id: doc.id, ...doc.data() });
+        });
+    }
+
+    function sendModalComment() {
+        const input = document.getElementById('modalCommentInput');
+        const text = input.value.trim();
+        if (!text) { showToast('Напиши комментарий 😅'); return; }
+        if (!modalPhraseId) return;
+        const phraseRef = db.collection('phrases').doc(modalPhraseId);
+        phraseRef.get().then(doc => {
+            if (!doc.exists) return;
+            const phrase = { id: doc.id, ...doc.data() };
+            const comments = phrase.comments || [];
             const newComment = {
                 id: Date.now(),
                 text: text,
                 author: MY_AUTHOR,
-                timestamp: Date.now()
+                timestamp: new Date().toISOString()
             };
             if (modalReplyTo) {
                 newComment.parentId = modalReplyTo;
-                const parent = phrase.comments.find(c => c.id === modalReplyTo);
+                const parent = comments.find(c => c.id === modalReplyTo);
                 if (parent) {
                     if (!parent.replies) parent.replies = [];
                     parent.replies.push(newComment);
                 } else {
-                    phrase.comments.push(newComment);
+                    comments.push(newComment);
                 }
             } else {
-                phrase.comments.push(newComment);
+                comments.push(newComment);
             }
-            saveData(data);
+            phraseRef.update({ comments });
             input.value = '';
             modalReplyTo = null;
             renderModalComments(phrase);
-            if (phrase.author !== MY_AUTHOR) {
-                const notifs = getNotifs();
-                notifs.unshift({
-                    id: Date.now(),
-                    text: `Новый комментарий к вашей фразе: "${phrase.text.slice(0,50)}${phrase.text.length>50?'...':''}"`,
-                    timestamp: Date.now(),
-                    read: false
-                });
-                saveNotifs(notifs);
-                updateNotifBadge();
-            }
             showToast('💬 Комментарий добавлен');
-            const countEl = document.querySelector(`.comment-count-${phrase.id}`);
-            if (countEl) countEl.textContent = phrase.comments.length;
-            loadPhrases();
-        }
+        });
+    }
 
-        function closeCommentsModal() {
-            document.getElementById('commentsModal').classList.remove('active');
-            document.body.style.overflow = '';
-            modalPhraseId = null;
-            modalReplyTo = null;
-            currentModalPhrase = null;
-        }
+    function closeCommentsModal() {
+        document.getElementById('commentsModal').classList.remove('active');
+        document.body.style.overflow = '';
+        modalPhraseId = null;
+        modalReplyTo = null;
+    }
 
-        // ============================================================
-        //  УВЕДОМЛЕНИЯ
-        // ============================================================
-        function updateNotifBadge() {
-            const notifs = getNotifs();
-            const unread = notifs.filter(n => !n.read).length;
-            const badge = document.getElementById('notifBadge');
-            if (unread > 0) {
-                badge.textContent = unread;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
+    // ============================================================
+    //  ПРОСМОТРЫ
+    // ============================================================
+    function trackView(phraseId) {
+        if (!currentUser) return;
+        const viewRef = db.collection('views').doc(`${currentUser.uid}_${phraseId}`);
+        viewRef.get().then(doc => {
+            if (!doc.exists) {
+                viewRef.set({ uid: currentUser.uid, phraseId, timestamp: new Date().toISOString() });
+                db.collection('phrases').doc(phraseId).update({
+                    views: firebase.firestore.FieldValue.increment(1)
+                });
             }
-            renderNotifications();
-        }
+        });
+    }
 
-        function renderNotifications() {
-            const container = document.getElementById('notifDropdown');
-            const notifs = getNotifs();
-            if (!notifs.length) {
-                container.innerHTML = `<div class="notif-empty">Нет уведомлений</div>`;
-                return;
-            }
-            let html = '';
-            notifs.forEach(n => {
-                const time = formatTime(n.timestamp);
-                html += `
-                    <div class="notif-item" data-id="${n.id}">
-                        <span class="notif-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
-                        <span class="notif-text">${escapeHtml(n.text)}</span>
-                        <span class="notif-time">${time}</span>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function toggleNotifications() {
-            const dropdown = document.getElementById('notifDropdown');
-            dropdown.classList.toggle('open');
-            if (dropdown.classList.contains('open')) {
-                const notifs = getNotifs();
-                notifs.forEach(n => n.read = true);
-                saveNotifs(notifs);
-                updateNotifBadge();
-            }
-        }
-
-        // ============================================================
-        //  ПРОСМОТРЫ
-        // ============================================================
-        function trackView(phraseId) {
-            const views = getViews();
-            if (views[phraseId]) return;
-            views[phraseId] = true;
-            saveViews(views);
-            const data = getData();
-            const phrase = data.phrases.find(p => p.id === phraseId);
-            if (phrase) {
-                phrase.views = (phrase.views || 0) + 1;
-                saveData(data);
-            }
-        }
-
-        // ============================================================
-        //  НОВАЯ ФРАЗА
-        // ============================================================
-        document.getElementById('submitBtn').addEventListener('click', function() {
-            const input = document.getElementById('phraseInput');
-            const text = input.value.trim();
-            if (!text) { showToast('Напиши фразу 😅'); return; }
-            const data = getData();
-            data.phrases.push({
-                id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
-                text: text,
-                author: MY_AUTHOR,
-                likes: 0,
-                views: 0,
-                timestamp: Date.now(),
-                comments: []
-            });
-            saveData(data);
+    // ============================================================
+    //  НОВАЯ ФРАЗА
+    // ============================================================
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        const input = document.getElementById('phraseInput');
+        const text = input.value.trim();
+        if (!text) { showToast('Напиши фразу 😅'); return; }
+        if (!currentUser) { showToast('Авторизуйся'); return; }
+        db.collection('phrases').add({
+            text: text,
+            author: MY_AUTHOR,
+            likes: 0,
+            views: 0,
+            timestamp: new Date().toISOString(),
+            comments: []
+        }).then(() => {
             input.value = '';
             document.getElementById('charCount').textContent = '0';
             showToast('❤️ Фраза отправлена');
-            loadPhrases();
-            // Переключаем на вкладку "Мои фразы", чтобы показать новую
             switchTab('my');
-        });
+        }).catch(console.error);
+    });
 
-        document.getElementById('phraseInput').addEventListener('input', function() {
-            document.getElementById('charCount').textContent = this.value.length;
-        });
+    document.getElementById('phraseInput').addEventListener('input', function() {
+        document.getElementById('charCount').textContent = this.value.length;
+    });
 
-        document.getElementById('loadMoreBtn').addEventListener('click', function() {
-            renderPage();
-        });
+    document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        renderPage();
+    });
 
-        // ============================================================
-        //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
-        // ============================================================
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            const page = document.getElementById(`page-${tab}`);
-            if (page) page.classList.add('active');
-            if (tab === 'new') document.getElementById('phraseInput').focus();
-            if (tab === 'all') {
-                applySortAndPaginate();
-            } else if (tab === 'my') {
-                renderMyPhrases();
-            }
+    // ============================================================
+    //  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+    // ============================================================
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+        document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+        const page = document.getElementById(`page-${tab}`);
+        if (page) page.classList.add('active');
+        if (tab === 'new') document.getElementById('phraseInput').focus();
+        if (tab === 'all') applySortAndPaginate();
+        else if (tab === 'my') renderMyPhrases();
+    }
+
+    // ============================================================
+    //  ЯЗЫК И ВХОД
+    // ============================================================
+    function selectLanguage(lang) {
+        document.querySelectorAll('.lang-buttons button').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.lang-buttons button[data-lang="${lang}"]`).classList.add('active');
+        document.getElementById('langIndicator').textContent = lang === 'ru' ? '🇷🇺 Русский' : '🇬🇧 English';
+        localStorage.setItem('leftover_lang', lang);
+    }
+
+    function enterSite() {
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('mainScreen').classList.add('active');
+        localStorage.setItem('leftover_visited', 'true');
+    }
+
+    // ============================================================
+    //  УВЕДОМЛЕНИЯ (заглушка)
+    // ============================================================
+    function toggleNotifications() {
+        document.getElementById('notifDropdown').classList.toggle('open');
+    }
+    function updateNotifBadge() {}
+
+    // ============================================================
+    //  ЗАКРЫТИЕ ПО ESC
+    // ============================================================
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (document.getElementById('commentsModal').classList.contains('active')) closeCommentsModal();
+            document.getElementById('notifDropdown').classList.remove('open');
         }
+    });
 
-        // ============================================================
-        //  ВХОД И ЯЗЫК
-        // ============================================================
-        function selectLanguage(lang) {
-            document.querySelectorAll('.lang-buttons button').forEach(b => b.classList.remove('active'));
-            document.querySelector(`.lang-buttons button[data-lang="${lang}"]`).classList.add('active');
-            document.getElementById('langIndicator').textContent = lang === 'ru' ? '🇷🇺 Русский' : '🇬🇧 English';
-            localStorage.setItem(LANG_KEY, lang);
-        }
-
-        function enterSite() {
-            document.getElementById('startScreen').classList.add('hidden');
-            document.getElementById('mainScreen').classList.add('active');
-            localStorage.setItem(VISITED_KEY, 'true');
-            updateOnline();
-            if (onlineInterval) clearInterval(onlineInterval);
-            onlineInterval = setInterval(() => {
-                updateOnline();
-                cleanupOnline();
-            }, 15000);
-            window.addEventListener('beforeunload', () => {
-                const online = getOnline();
-                delete online[MY_AUTHOR];
-                saveOnline(online);
-            });
-            loadPhrases();
-            updateNotifBadge();
-        }
-
-        // ============================================================
-        //  ЗАКРЫТИЕ МОДАЛКИ ПО ESC
-        // ============================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (document.getElementById('commentsModal').classList.contains('active')) {
-                    closeCommentsModal();
-                }
-                document.getElementById('notifDropdown').classList.remove('open');
-            }
-        });
-
-        // ============================================================
-        //  ИНИЦИАЛИЗАЦИЯ
-        // ============================================================
-        const savedLang = localStorage.getItem(LANG_KEY) || 'ru';
-        selectLanguage(savedLang);
-
-        if (isVisited) {
-            document.getElementById('startScreen').classList.add('hidden');
-            document.getElementById('mainScreen').classList.add('active');
-            updateOnline();
-            if (onlineInterval) clearInterval(onlineInterval);
-            onlineInterval = setInterval(() => {
-                updateOnline();
-                cleanupOnline();
-            }, 15000);
-            window.addEventListener('beforeunload', () => {
-                const online = getOnline();
-                delete online[MY_AUTHOR];
-                saveOnline(online);
-            });
-            loadPhrases();
-            updateNotifBadge();
-        }
-    </script>
+    // ============================================================
+    //  ИНИЦИАЛИЗАЦИЯ
+    // ============================================================
+    const savedLang = localStorage.getItem('leftover_lang') || 'ru';
+    selectLanguage(savedLang);
+</script>
 </body>
 </html>
