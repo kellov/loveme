@@ -204,7 +204,7 @@
     <div class="start-screen" id="startScreen">
         <svg class="logo" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         <h1>Leftover</h1>
-        <p class="subtitle">Анонимный сбор фраз, которые остались в твоей голове</p>
+        <p class="subtitle" id="startSubtitle">Анонимный сбор фраз, которые остались в твоей голове</p>
         <div class="description" id="startDesc">
             <span>Иногда слова застревают в голове на годы</span><br>
             <span>Фразы, которые мы не можем забыть..</span><br>
@@ -217,7 +217,7 @@
             <button class="active" data-lang="ru" onclick="selectLanguage('ru')">🇷🇺 Русский</button>
             <button data-lang="en" onclick="selectLanguage('en')">🇬🇧 English</button>
         </div>
-        <button class="btn-enter" onclick="enterSite()">Войти / Enter</button>
+        <button class="btn-enter" id="enterBtn" onclick="enterSite()">Войти / Enter</button>
     </div>
 
     <div class="main-screen" id="mainScreen">
@@ -241,19 +241,19 @@
         <div class="tabs">
             <button class="tab active" data-tab="main" onclick="switchTab('main')">
                 <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V10"/></svg>
-                Главная
+                <span id="tabMain">Главная</span>
             </button>
             <button class="tab" data-tab="all" onclick="switchTab('all')">
                 <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
-                Все фразы<span class="badge" id="allCount">0</span>
+                <span id="tabAll">Все фразы</span><span class="badge" id="allCount">0</span>
             </button>
             <button class="tab" data-tab="my" onclick="switchTab('my')">
                 <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                Мои фразы <span class="badge" id="myCount">0</span>
+                <span id="tabMy">Мои фразы</span><span class="badge" id="myCount">0</span>
             </button>
             <button class="tab" data-tab="new" onclick="switchTab('new')">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-                Написать новую фразу
+                <span id="tabNew">Написать новую фразу</span>
             </button>
         </div>
 
@@ -262,23 +262,23 @@
                 <div class="stat-card">
                     <span class="stat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
                     <span class="stat-number" id="onlineCount">0</span>
-                    <span class="stat-label">онлайн</span>
+                    <span class="stat-label" id="labelOnline">онлайн</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
                     <span class="stat-number" id="totalPhrases">0</span>
-                    <span class="stat-label">всего фраз</span>
+                    <span class="stat-label" id="labelTotal">всего фраз</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
                     <span class="stat-number" id="totalLikes">0</span>
-                    <span class="stat-label">всего лайков</span>
+                    <span class="stat-label" id="labelLikes">всего лайков</span>
                 </div>
             </div>
             <div class="daily-phrase" id="dailyPhrase">
                 <div class="label">
                     <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                    Фраза дня
+                    <span id="dailyLabel">Фраза дня</span>
                 </div>
                 <div class="text" id="dailyText">Загрузка...</div>
                 <div class="meta" id="dailyMeta"></div>
@@ -288,9 +288,9 @@
         <div id="page-all" class="page-content">
             <div class="sort-bar">
                 <select id="sortSelect" onchange="applySortAndPaginate()">
-                    <option value="date">По дате (новые)</option>
-                    <option value="likes">По лайкам</option>
-                    <option value="views">По просмотрам</option>
+                    <option value="date" id="sortDate">По дате (новые)</option>
+                    <option value="likes" id="sortLikes">По лайкам</option>
+                    <option value="views" id="sortViews">По просмотрам</option>
                 </select>
             </div>
             <div class="phrases-list" id="allPhrasesList"></div>
@@ -343,7 +343,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
 
 <script>
     // ============================================================
@@ -360,12 +359,122 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const auth = firebase.auth();
+
+    // ============================================================
+    //  ТЕКСТЫ ДЛЯ РАЗНЫХ ЯЗЫКОВ
+    // ============================================================
+    const LANG = {
+        ru: {
+            startSubtitle: 'Анонимный сбор фраз, которые остались в твоей голове',
+            startDesc: 'Иногда слова застревают в голове на годы<br>Фразы, которые мы не можем забыть..<br>Это место: чтобы оставить их анонимно<br><br>Никаких имён. Без осуждения<br>Каждая фраза здесь: чья-то история.<br>И когда ты видишь это, ты понимаешь что ты не один и становится легче)',
+            enterBtn: 'Войти',
+            tabMain: 'Главная',
+            tabAll: 'Все фразы',
+            tabMy: 'Мои фразы',
+            tabNew: 'Написать новую фразу',
+            labelOnline: 'онлайн',
+            labelTotal: 'всего фраз',
+            labelLikes: 'всего лайков',
+            dailyLabel: 'Фраза дня',
+            sortDate: 'По дате (новые)',
+            sortLikes: 'По лайкам',
+            sortViews: 'По просмотрам',
+            phrasePlaceholder: 'Напиши фразу, которая застряла в твоей голове...',
+            submitBtn: 'Отправить',
+            emptyAll: 'Пока нет фраз',
+            emptyMy: 'У тебя пока нет фраз',
+            modalTitle: 'Комментарии',
+            modalCommentPlaceholder: 'Написать комментарий...',
+            modalSend: 'Отправить',
+            toastPhraseSent: '❤️ Фраза отправлена',
+            toastCommentSent: '💬 Комментарий добавлен',
+            toastWritePhrase: 'Напиши фразу 😅',
+            toastWriteComment: 'Напиши комментарий 😅',
+            toastLikeRemoved: '💔 Лайк убран',
+            toastLikeAdded: '❤️ Лайк поставлен',
+            toastDeleted: '🗑️ Фраза удалена',
+            deleteConfirm: 'Удалить эту фразу?',
+            loadMore: 'Загрузить ещё',
+            noComments: 'Нет комментариев. Будь первым.',
+            reply: 'Ответить',
+            cancelReply: 'Отменить'
+        },
+        en: {
+            startSubtitle: 'Anonymous collection of phrases that stayed in your head',
+            startDesc: 'Sometimes words get stuck in your head for years<br>Phrases we can\'t forget..<br>This place: to leave them anonymously<br><br>No names. No judgment<br>Every phrase here is someone\'s story.<br>And when you see it, you realize you\'re not alone and it gets easier)',
+            enterBtn: 'Enter',
+            tabMain: 'Home',
+            tabAll: 'All phrases',
+            tabMy: 'My phrases',
+            tabNew: 'Write new phrase',
+            labelOnline: 'online',
+            labelTotal: 'total phrases',
+            labelLikes: 'total likes',
+            dailyLabel: 'Phrase of the day',
+            sortDate: 'By date (newest)',
+            sortLikes: 'By likes',
+            sortViews: 'By views',
+            phrasePlaceholder: 'Write a phrase that stuck in your head...',
+            submitBtn: 'Submit',
+            emptyAll: 'No phrases yet',
+            emptyMy: 'You have no phrases yet',
+            modalTitle: 'Comments',
+            modalCommentPlaceholder: 'Write a comment...',
+            modalSend: 'Send',
+            toastPhraseSent: '❤️ Phrase sent',
+            toastCommentSent: '💬 Comment added',
+            toastWritePhrase: 'Write a phrase 😅',
+            toastWriteComment: 'Write a comment 😅',
+            toastLikeRemoved: '💔 Like removed',
+            toastLikeAdded: '❤️ Like added',
+            toastDeleted: '🗑️ Phrase deleted',
+            deleteConfirm: 'Delete this phrase?',
+            loadMore: 'Load more',
+            noComments: 'No comments. Be the first.',
+            reply: 'Reply',
+            cancelReply: 'Cancel'
+        }
+    };
+
+    let currentLang = 'ru';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        const t = LANG[lang];
+        document.querySelectorAll('.lang-buttons button').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.lang-buttons button[data-lang="${lang}"]`).classList.add('active');
+        document.getElementById('langIndicator').textContent = lang === 'ru' ? '🇷🇺 Русский' : '🇬🇧 English';
+        document.getElementById('startSubtitle').textContent = t.startSubtitle;
+        document.getElementById('startDesc').innerHTML = t.startDesc;
+        document.getElementById('enterBtn').textContent = t.enterBtn;
+        document.getElementById('tabMain').textContent = t.tabMain;
+        document.getElementById('tabAll').textContent = t.tabAll;
+        document.getElementById('tabMy').textContent = t.tabMy;
+        document.getElementById('tabNew').textContent = t.tabNew;
+        document.getElementById('labelOnline').textContent = t.labelOnline;
+        document.getElementById('labelTotal').textContent = t.labelTotal;
+        document.getElementById('labelLikes').textContent = t.labelLikes;
+        document.getElementById('dailyLabel').textContent = t.dailyLabel;
+        document.getElementById('sortDate').textContent = t.sortDate;
+        document.getElementById('sortLikes').textContent = t.sortLikes;
+        document.getElementById('sortViews').textContent = t.sortViews;
+        document.getElementById('phraseInput').placeholder = t.phrasePlaceholder;
+        document.getElementById('submitBtn').textContent = t.submitBtn;
+        document.getElementById('loadMoreBtn').textContent = t.loadMore;
+        document.getElementById('modalTitle').textContent = t.modalTitle;
+        document.getElementById('modalCommentInput').placeholder = t.modalCommentPlaceholder;
+        // обновляем кнопку в модалке (она без id, но можно через querySelector)
+        document.querySelector('#commentsModal .modal-form button').textContent = t.modalSend;
+        localStorage.setItem('leftover_lang', lang);
+    }
+
+    function selectLanguage(lang) {
+        setLanguage(lang);
+    }
 
     // ============================================================
     //  ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
     // ============================================================
-    let currentUser = null;
     let currentTab = 'main';
     let currentSort = 'date';
     let allPhrases = [];
@@ -375,114 +484,10 @@
     const PAGE_SIZE = 15;
     let modalPhraseId = null;
     let modalReplyTo = null;
-    let onlineInterval = null;
-    let MY_AUTHOR = null;
-    const isVisited = localStorage.getItem('leftover_visited') === 'true';
-
-    // ============================================================
-    //  АВТОРИЗАЦИЯ
-    // ============================================================
-    auth.signInAnonymously().catch(console.error);
-    auth.onAuthStateChanged(async (user) => {
-        if (user) {
-            currentUser = user;
-            const userRef = db.collection('users').doc(user.uid);
-            const doc = await userRef.get();
-            if (doc.exists) {
-                MY_AUTHOR = doc.data().authorNum;
-            } else {
-                const snapshot = await db.collection('users').get();
-                const nextNum = snapshot.size + 1;
-                await userRef.set({ authorNum: nextNum, createdAt: new Date().toISOString() });
-                MY_AUTHOR = nextNum;
-            }
-            startOnlineTracking(user.uid);
-            loadPhrases();
-            if (isVisited) {
-                document.getElementById('startScreen').classList.add('hidden');
-                document.getElementById('mainScreen').classList.add('active');
-            }
-        }
-    });
-
-    // ============================================================
-    //  ОНЛАЙН
-    // ============================================================
-    function startOnlineTracking(uid) {
-        const onlineRef = db.collection('online').doc(uid);
-        onlineRef.set({ uid, lastSeen: new Date().toISOString() }).catch(console.error);
-        if (onlineInterval) clearInterval(onlineInterval);
-        onlineInterval = setInterval(() => {
-            onlineRef.set({ uid, lastSeen: new Date().toISOString() }).catch(console.error);
-        }, 15000);
-        window.addEventListener('beforeunload', () => {
-            onlineRef.delete().catch(console.error);
-            if (onlineInterval) clearInterval(onlineInterval);
-        });
-    }
-
-    function updateOnlineCount() {
-        db.collection('online').get().then(snapshot => {
-            const now = Date.now();
-            const cutoff = now - 30000;
-            let count = 0;
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                if (data.lastSeen && new Date(data.lastSeen).getTime() > cutoff) count++;
-            });
-            const el = document.getElementById('onlineCount');
-            if (el) {
-                el.textContent = count;
-                el.classList.remove('pulse');
-                void el.offsetWidth;
-                el.classList.add('pulse');
-            }
-        });
-    }
-
-    // ============================================================
-    //  ЗАГРУЗКА ДАННЫХ (onSnapshot)
-    // ============================================================
-    function loadPhrases() {
-        db.collection('phrases')
-            .orderBy('timestamp', 'desc')
-            .limit(100)
-            .onSnapshot((snapshot) => {
-                allPhrases = [];
-                snapshot.forEach(doc => {
-                    allPhrases.push({ id: doc.id, ...doc.data() });
-                });
-                myPhrases = allPhrases.filter(p => p.author === MY_AUTHOR);
-                myPhrases.sort((a,b) => b.timestamp?.toMillis?.() || b.timestamp - a.timestamp);
-                document.getElementById('allCount').textContent = allPhrases.length;
-                document.getElementById('myCount').textContent = myPhrases.length;
-                const likes = allPhrases.reduce((sum, p) => sum + (p.likes || 0), 0);
-                document.getElementById('totalPhrases').textContent = allPhrases.length;
-                document.getElementById('totalLikes').textContent = likes;
-
-                const today = new Date();
-                today.setHours(0,0,0,0);
-                let best = null;
-                let bestLikes = -1;
-                allPhrases.forEach(p => {
-                    const ts = p.timestamp?.toMillis?.() || p.timestamp;
-                    if (ts && new Date(ts) >= today && (p.likes || 0) > bestLikes) {
-                        bestLikes = p.likes;
-                        best = p;
-                    }
-                });
-                if (best) {
-                    document.getElementById('dailyText').textContent = best.text;
-                    document.getElementById('dailyMeta').textContent =
-                        `❤️ ${best.likes} • ${formatTime(best.timestamp)}`;
-                } else {
-                    document.getElementById('dailyText').textContent = 'Пока нет фраз за сегодня';
-                    document.getElementById('dailyMeta').textContent = '';
-                }
-                updateOnlineCount();
-                applySortAndPaginate();
-                renderMyPhrases();
-            });
+    let MY_AUTHOR = localStorage.getItem('leftover_author') || null;
+    if (!MY_AUTHOR) {
+        MY_AUTHOR = Math.floor(Math.random() * 1000000).toString(36);
+        localStorage.setItem('leftover_author', MY_AUTHOR);
     }
 
     // ============================================================
@@ -509,6 +514,50 @@
     }
 
     // ============================================================
+    //  ЗАГРУЗКА ДАННЫХ (onSnapshot)
+    // ============================================================
+    function loadPhrases() {
+        db.collection('phrases')
+            .orderBy('timestamp', 'desc')
+            .limit(100)
+            .onSnapshot((snapshot) => {
+                allPhrases = [];
+                snapshot.forEach(doc => {
+                    allPhrases.push({ id: doc.id, ...doc.data() });
+                });
+                myPhrases = allPhrases.filter(p => p.author === MY_AUTHOR);
+                myPhrases.sort((a,b) => (b.timestamp?.toMillis?.() || b.timestamp) - (a.timestamp?.toMillis?.() || a.timestamp));
+                document.getElementById('allCount').textContent = allPhrases.length;
+                document.getElementById('myCount').textContent = myPhrases.length;
+                const likes = allPhrases.reduce((sum, p) => sum + (p.likes || 0), 0);
+                document.getElementById('totalPhrases').textContent = allPhrases.length;
+                document.getElementById('totalLikes').textContent = likes;
+
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                let best = null;
+                let bestLikes = -1;
+                allPhrases.forEach(p => {
+                    const ts = p.timestamp?.toMillis?.() || p.timestamp;
+                    if (ts && new Date(ts) >= today && (p.likes || 0) > bestLikes) {
+                        bestLikes = p.likes;
+                        best = p;
+                    }
+                });
+                if (best) {
+                    document.getElementById('dailyText').textContent = best.text;
+                    document.getElementById('dailyMeta').textContent =
+                        `❤️ ${best.likes} • ${formatTime(best.timestamp)}`;
+                } else {
+                    document.getElementById('dailyText').textContent = 'Пока нет фраз за сегодня';
+                    document.getElementById('dailyMeta').textContent = '';
+                }
+                applySortAndPaginate();
+                renderMyPhrases();
+            });
+    }
+
+    // ============================================================
     //  ПАГИНАЦИЯ
     // ============================================================
     function applySortAndPaginate() {
@@ -532,7 +581,7 @@
         if (chunk.length === 0) {
             document.getElementById('loadMoreWrap').style.display = 'none';
             if (currentPage === 0 && filteredPhrases.length === 0) {
-                container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p>Пока нет фраз</p></div>`;
+                container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p id="emptyAllText">${LANG[currentLang].emptyAll}</p></div>`;
             }
             return;
         }
@@ -585,7 +634,7 @@
     function renderMyPhrases() {
         const container = document.getElementById('myPhrasesList');
         if (!myPhrases.length) {
-            container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p>У тебя пока нет фраз</p></div>`;
+            container.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><p>${LANG[currentLang].emptyMy}</p></div>`;
             return;
         }
         let html = '';
@@ -623,12 +672,12 @@
     }
 
     // ============================================================
-    //  УДАЛЕНИЕ
+    //  УДАЛЕНИЕ ФРАЗЫ
     // ============================================================
     function deletePhrase(phraseId) {
-        if (!confirm('Удалить эту фразу?')) return;
+        if (!confirm(LANG[currentLang].deleteConfirm)) return;
         db.collection('phrases').doc(phraseId).delete()
-            .then(() => showToast('🗑️ Фраза удалена'))
+            .then(() => showToast(LANG[currentLang].toastDeleted))
             .catch(console.error);
     }
 
@@ -636,23 +685,21 @@
     //  ЛАЙКИ
     // ============================================================
     function toggleLikeFromList(phraseId) {
-        if (!currentUser) return;
-        const likeRef = db.collection('likes').doc(`${currentUser.uid}_${phraseId}`);
-        likeRef.get().then(doc => {
-            if (doc.exists) {
-                likeRef.delete();
-                db.collection('phrases').doc(phraseId).update({
-                    likes: firebase.firestore.FieldValue.increment(-1)
-                });
-                showToast('💔 Лайк убран');
-            } else {
-                likeRef.set({ uid: currentUser.uid, phraseId, timestamp: new Date().toISOString() });
-                db.collection('phrases').doc(phraseId).update({
-                    likes: firebase.firestore.FieldValue.increment(1)
-                });
-                showToast('❤️ Лайк поставлен');
-            }
-        });
+        const likeKey = `like_${MY_AUTHOR}_${phraseId}`;
+        if (localStorage.getItem(likeKey)) {
+            // убрать лайк
+            localStorage.removeItem(likeKey);
+            db.collection('phrases').doc(phraseId).update({
+                likes: firebase.firestore.FieldValue.increment(-1)
+            });
+            showToast(LANG[currentLang].toastLikeRemoved);
+        } else {
+            localStorage.setItem(likeKey, '1');
+            db.collection('phrases').doc(phraseId).update({
+                likes: firebase.firestore.FieldValue.increment(1)
+            });
+            showToast(LANG[currentLang].toastLikeAdded);
+        }
     }
 
     // ============================================================
@@ -667,8 +714,8 @@
             const phrase = { id: doc.id, ...doc.data() };
             document.getElementById('mpAuthor').textContent = `Аноним #${phrase.author}`;
             document.getElementById('mpText').textContent = phrase.text;
-            document.getElementById('modalTitle').textContent = 'Комментарии';
-            document.getElementById('modalCommentInput').placeholder = 'Написать комментарий...';
+            document.getElementById('modalTitle').textContent = LANG[currentLang].modalTitle;
+            document.getElementById('modalCommentInput').placeholder = LANG[currentLang].modalCommentPlaceholder;
             document.getElementById('commentsModal').classList.add('active');
             document.body.style.overflow = 'hidden';
             trackView(phraseId);
@@ -680,7 +727,7 @@
         const container = document.getElementById('modalComments');
         const comments = phrase.comments || [];
         if (!comments.length) {
-            container.innerHTML = `<div class="empty-state"><p>Нет комментариев. Будь первым.</p></div>`;
+            container.innerHTML = `<div class="empty-state"><p>${LANG[currentLang].noComments}</p></div>`;
             return;
         }
         const map = {};
@@ -708,7 +755,7 @@
                     <div class="comment-actions">
                         <button onclick="setReplyTo('${phrase.id}', ${c.id})">
                             <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            Ответить
+                            ${LANG[currentLang].reply}
                         </button>
                     </div>
             `;
@@ -728,7 +775,7 @@
         if (modalReplyTo) {
             const indicator = document.createElement('div');
             indicator.className = 'reply-indicator';
-            indicator.innerHTML = `Ответ на комментарий <button onclick="cancelReply()">Отменить</button>`;
+            indicator.innerHTML = `Ответ на комментарий <button onclick="cancelReply()">${LANG[currentLang].cancelReply}</button>`;
             container.prepend(indicator);
             document.getElementById('modalCommentInput').focus();
         }
@@ -755,7 +802,7 @@
     function sendModalComment() {
         const input = document.getElementById('modalCommentInput');
         const text = input.value.trim();
-        if (!text) { showToast('Напиши комментарий 😅'); return; }
+        if (!text) { showToast(LANG[currentLang].toastWriteComment); return; }
         if (!modalPhraseId) return;
         const phraseRef = db.collection('phrases').doc(modalPhraseId);
         phraseRef.get().then(doc => {
@@ -784,7 +831,7 @@
             input.value = '';
             modalReplyTo = null;
             renderModalComments(phrase);
-            showToast('💬 Комментарий добавлен');
+            showToast(LANG[currentLang].toastCommentSent);
         });
     }
 
@@ -799,15 +846,11 @@
     //  ПРОСМОТРЫ
     // ============================================================
     function trackView(phraseId) {
-        if (!currentUser) return;
-        const viewRef = db.collection('views').doc(`${currentUser.uid}_${phraseId}`);
-        viewRef.get().then(doc => {
-            if (!doc.exists) {
-                viewRef.set({ uid: currentUser.uid, phraseId, timestamp: new Date().toISOString() });
-                db.collection('phrases').doc(phraseId).update({
-                    views: firebase.firestore.FieldValue.increment(1)
-                });
-            }
+        const viewKey = `view_${MY_AUTHOR}_${phraseId}`;
+        if (localStorage.getItem(viewKey)) return;
+        localStorage.setItem(viewKey, '1');
+        db.collection('phrases').doc(phraseId).update({
+            views: firebase.firestore.FieldValue.increment(1)
         });
     }
 
@@ -817,8 +860,7 @@
     document.getElementById('submitBtn').addEventListener('click', function() {
         const input = document.getElementById('phraseInput');
         const text = input.value.trim();
-        if (!text) { showToast('Напиши фразу 😅'); return; }
-        if (!currentUser) { showToast('Авторизуйся'); return; }
+        if (!text) { showToast(LANG[currentLang].toastWritePhrase); return; }
         db.collection('phrases').add({
             text: text,
             author: MY_AUTHOR,
@@ -829,7 +871,7 @@
         }).then(() => {
             input.value = '';
             document.getElementById('charCount').textContent = '0';
-            showToast('❤️ Фраза отправлена');
+            showToast(LANG[currentLang].toastPhraseSent);
             switchTab('my');
         }).catch(console.error);
     });
@@ -858,19 +900,13 @@
     }
 
     // ============================================================
-    //  ЯЗЫК И ВХОД
+    //  ВХОД
     // ============================================================
-    function selectLanguage(lang) {
-        document.querySelectorAll('.lang-buttons button').forEach(b => b.classList.remove('active'));
-        document.querySelector(`.lang-buttons button[data-lang="${lang}"]`).classList.add('active');
-        document.getElementById('langIndicator').textContent = lang === 'ru' ? '🇷🇺 Русский' : '🇬🇧 English';
-        localStorage.setItem('leftover_lang', lang);
-    }
-
     function enterSite() {
         document.getElementById('startScreen').classList.add('hidden');
         document.getElementById('mainScreen').classList.add('active');
         localStorage.setItem('leftover_visited', 'true');
+        loadPhrases();
     }
 
     // ============================================================
@@ -879,7 +915,6 @@
     function toggleNotifications() {
         document.getElementById('notifDropdown').classList.toggle('open');
     }
-    function updateNotifBadge() {}
 
     // ============================================================
     //  ЗАКРЫТИЕ ПО ESC
@@ -895,7 +930,14 @@
     //  ИНИЦИАЛИЗАЦИЯ
     // ============================================================
     const savedLang = localStorage.getItem('leftover_lang') || 'ru';
-    selectLanguage(savedLang);
+    setLanguage(savedLang);
+
+    // Если уже заходил — сразу показываем основной экран
+    if (localStorage.getItem('leftover_visited') === 'true') {
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('mainScreen').classList.add('active');
+        loadPhrases();
+    }
 </script>
 </body>
 </html>
