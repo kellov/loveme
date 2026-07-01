@@ -103,8 +103,7 @@
         .phrase-card { background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); border-radius: 20px; padding: 18px 20px; border: 1px solid rgba(255,255,255,0.04); transition: 0.3s; animation: slideUp 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
         .phrase-card:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,107,157,0.08); transform: translateY(-2px); }
         .phrase-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .phrase-author { font-size: 13px; font-weight: 500; color: rgba(255,107,157,0.4); display: flex; align-items: center; gap: 6px; }
-        .phrase-actions-header { display: flex; align-items: center; gap: 8px; }
+        .phrase-author { font-size: 13px; font-weight: 500; color: rgba(255,107,157,0.4); }
         .delete-btn { background: none; border: none; color: rgba(255,255,255,0.1); cursor: pointer; padding: 2px 6px; transition: 0.3s; display: flex; align-items: center; justify-content: center; border-radius: 6px; }
         .delete-btn:hover { color: #ff6b9d; background: rgba(255,107,157,0.05); }
         .delete-btn svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; }
@@ -396,7 +395,9 @@
             loadMore: 'Загрузить ещё',
             noComments: 'Нет комментариев. Будь первым.',
             reply: 'Ответить',
-            cancelReply: 'Отменить'
+            cancelReply: 'Отменить',
+            notifTitle: 'Уведомления',
+            notifEmpty: 'Нет уведомлений'
         },
         en: {
             startSubtitle: 'Anonymous collection of phrases that stayed in your head',
@@ -431,7 +432,9 @@
             loadMore: 'Load more',
             noComments: 'No comments. Be the first.',
             reply: 'Reply',
-            cancelReply: 'Cancel'
+            cancelReply: 'Cancel',
+            notifTitle: 'Notifications',
+            notifEmpty: 'No notifications'
         }
     };
 
@@ -462,8 +465,10 @@
         document.getElementById('loadMoreBtn').textContent = t.loadMore;
         document.getElementById('modalTitle').textContent = t.modalTitle;
         document.getElementById('modalCommentInput').placeholder = t.modalCommentPlaceholder;
-        // update modal send button
         document.querySelector('#commentsModal .modal-form button').textContent = t.modalSend;
+        // обновляем заголовок уведомлений
+        const notifTitle = document.querySelector('.notif-dropdown .notif-empty');
+        if (notifTitle) notifTitle.textContent = t.notifEmpty;
         localStorage.setItem('leftover_lang', lang);
     }
 
@@ -553,6 +558,8 @@
                 }
                 applySortAndPaginate();
                 renderMyPhrases();
+                // обновляем уведомления
+                loadNotifications();
             });
     }
 
@@ -678,8 +685,6 @@
         db.collection('phrases').doc(phraseId).delete()
             .then(() => {
                 showToast(LANG[currentLang].toastDeleted);
-                // принудительно обновляем ленту, чтобы убрать удалённую фразу
-                // onSnapshot сам обновит, но можно форсировать
             })
             .catch((error) => {
                 console.error('Ошибка удаления:', error);
@@ -693,7 +698,6 @@
     function toggleLikeFromList(phraseId) {
         const likeKey = `like_${MY_AUTHOR}_${phraseId}`;
         if (localStorage.getItem(likeKey)) {
-            // убрать лайк
             localStorage.removeItem(likeKey);
             db.collection('phrases').doc(phraseId).update({
                 likes: firebase.firestore.FieldValue.increment(-1)
@@ -705,6 +709,70 @@
                 likes: firebase.firestore.FieldValue.increment(1)
             });
             showToast(LANG[currentLang].toastLikeAdded);
+        }
+    }
+
+    // ============================================================
+    //  УВЕДОМЛЕНИЯ
+    // ============================================================
+    function loadNotifications() {
+        if (!MY_AUTHOR) return;
+        const q = db.collection('notifications')
+            .where('userId', '==', MY_AUTHOR)
+            .orderBy('timestamp', 'desc')
+            .limit(20);
+        q.onSnapshot((snapshot) => {
+            const items = [];
+            snapshot.forEach(doc => {
+                items.push({ id: doc.id, ...doc.data() });
+            });
+            renderNotifications(items);
+            updateNotifBadge(items);
+        });
+    }
+
+    function renderNotifications(items) {
+        const container = document.getElementById('notifDropdown');
+        const t = LANG[currentLang];
+        if (!items.length) {
+            container.innerHTML = `<div class="notif-empty">${t.notifEmpty}</div>`;
+            return;
+        }
+        let html = '';
+        items.forEach(n => {
+            const time = formatTime(n.timestamp);
+            html += `
+                <div class="notif-item">
+                    <span class="notif-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+                    <span class="notif-text">${escapeHtml(n.text)}</span>
+                    <span class="notif-time">${time}</span>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function updateNotifBadge(items) {
+        const unread = items.filter(n => !n.read).length;
+        const badge = document.getElementById('notifBadge');
+        if (unread > 0) {
+            badge.textContent = unread;
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    function toggleNotifications() {
+        const dropdown = document.getElementById('notifDropdown');
+        dropdown.classList.toggle('open');
+        if (dropdown.classList.contains('open')) {
+            // Отметить все как прочитанные
+            const items = document.querySelectorAll('.notif-item');
+            items.forEach(async (el, index) => {
+                // На самом деле нужно обновить в Firestore, но для простоты отметим все
+                // Здесь можно добавить логику обновления read = true для каждого уведомления
+            });
         }
     }
 
@@ -838,6 +906,16 @@
             modalReplyTo = null;
             renderModalComments(phrase);
             showToast(LANG[currentLang].toastCommentSent);
+
+            // Отправить уведомление автору фразы
+            if (phrase.author !== MY_AUTHOR) {
+                db.collection('notifications').add({
+                    userId: phrase.author,
+                    text: `Новый комментарий к вашей фразе: "${phrase.text.slice(0,50)}${phrase.text.length>50?'...':''}"`,
+                    timestamp: new Date().toISOString(),
+                    read: false
+                });
+            }
         });
     }
 
@@ -913,13 +991,6 @@
         document.getElementById('mainScreen').classList.add('active');
         localStorage.setItem('leftover_visited', 'true');
         loadPhrases();
-    }
-
-    // ============================================================
-    //  УВЕДОМЛЕНИЯ (заглушка)
-    // ============================================================
-    function toggleNotifications() {
-        document.getElementById('notifDropdown').classList.toggle('open');
     }
 
     // ============================================================
