@@ -222,7 +222,7 @@
         <div class="header">
             <div class="header-left">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                <h2>Foltover</h2>
+                <h2>Leftover</h2>
             </div>
             <div class="header-right">
                 <span class="lang-indicator" id="langIndicator">🇷🇺 Русский</span>
@@ -629,6 +629,12 @@
         });
         container.insertAdjacentHTML('beforeend', html);
         currentPage++;
+
+        // 👁️ Считаем просмотры для отрендеренных карточек
+        chunk.forEach((p) => {
+            trackView(p.id);
+        });
+
         const wrap = document.getElementById('loadMoreWrap');
         if (end >= filteredPhrases.length) wrap.style.display = 'none';
         else wrap.style.display = 'block';
@@ -675,6 +681,11 @@
             `;
         });
         container.innerHTML = html;
+
+        // 👁️ Считаем просмотры для отрендеренных карточек
+        myPhrases.forEach((p) => {
+            trackView(p.id);
+        });
     }
 
     // ============================================================
@@ -929,6 +940,7 @@
     //  ПРОСМОТРЫ
     // ============================================================
     function trackView(phraseId) {
+        if (!MY_AUTHOR) return;
         const viewKey = `view_${MY_AUTHOR}_${phraseId}`;
         if (localStorage.getItem(viewKey)) return;
         localStorage.setItem(viewKey, '1');
